@@ -1,0 +1,885 @@
+/*  
+Theme Name: Ahimsa
+Theme URI: http://ahren.org/code/ahimsa
+Description: Ahimsa -- customisable colours, low graphics, minimal distractions, collapsible sidebar, with rounded corners in Firefox, Safari, Chrome. New for version 2.2: IE 6/7/8 fixes, first cut of colour scheme support, many other fixes. Please visit http://ahren.org/code/bit/ahimsa-wp-2dot2 for feature and fixes list and to suggest fixes and enhancements.
+Version: 2.2.1
+Author: Ravi Sarma
+Author URI: http://ahren.org/code/
+Tags: two-columns, flexible-width, left-sidebar, theme-options, threaded-comments
+
+	 Ahimsa 2.2
+	 http://ahren.org/code/ahimsa
+
+	Theme built for the Ahren Code site but free for all
+    to use. The aim of this theme is to minimise the
+    distractions to the reader through the use of clean
+    (mostly) primary colours, low graphics, etc. This
+    theme uses rounded borders viewable in all browsers
+    that support them.
+
+	The CSS, XHTML and design are released under the
+    latest GPL (at time of use):
+	http://www.opensource.org/licenses/gpl-license.php
+
+*/
+
+BODY
+{
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+    border-style: none;
+    background-color: #6f900d;
+    font-size: medium;
+    font-family: Futura, Helvetica, Arial;
+}
+
+A
+{
+    color: #772200;
+    text-decoration: none;
+}
+
+A:hover
+{
+    text-decoration: none;
+}
+
+IMG
+{
+    border: none 0px;
+}
+
+BLOCKQUOTE
+{
+    background-image: URL('images/quote.gif');
+    background-position: 0px 1px;
+    background-repeat: no-repeat;
+    background-color: #f0f0aa;
+    color: #333355;
+    margin: 15px 25px 15px 25px;
+    padding: 20px 20px 10px 20px;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+}
+
+/* hack to get fieldset background and legend position working right in IE */
+fieldset
+{
+    position: relative;
+    margin: 0 0 1em 0;
+}
+
+fieldset legend
+{
+    position: absolute;
+    top: -15px;
+    left: 3%;
+}
+
+.xx{
+	font-size: 20pt;
+    	font-family: Futura, Helvetica, Arial;
+	color:yellow;
+}
+.xx2{
+	font-size: 20pt;
+    	font-family: Futura, Helvetica, Arial;
+	color:white	;
+}
+
+#bgtop
+{
+    z-index: -1;
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: 50%;
+    margin: 0;
+    padding: 0;
+    background-color: #333333;
+    border-bottom: 6px solid #cccccc;
+    /* for IE */
+    _position:absolute;
+    _top:expression(eval(document.body.scrollTop));
+    
+}
+
+#container
+{
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    border-style: none;
+}
+
+#main
+{
+    margin: 60px 40px 60px 20px;
+    border-radius: 30px; 
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px; 
+}
+
+.sidetabs
+{
+}
+
+#header
+{
+    background-color: #b70100;
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+    text-align: left;
+    border-radius-topleft: 30px; 
+    border-radius-topright: 30px; 
+    -webkit-border-top-right-radius: 30px;
+    -webkit-border-top-left-radius: 30px;
+    -moz-border-radius-topleft: 30px; 
+    -moz-border-radius-topright: 30px; 
+}
+
+#header table
+{
+    color: #ffffff;
+    width: 100%;
+}
+
+#header #title
+{
+    height: 20px;
+    font-size:  24pt;
+    font-family: "Trebuchet MS", "Gill Sans", Skia, "Century Gothic";
+    padding-right: 15px;
+    padding-left: 10px;
+    border-right: 2px solid #ffdd00;
+}
+
+#header #description
+{
+    padding-left: 20px;
+    padding-right: 15px;
+    width: 100%;
+}
+
+#header a
+{
+    color: #ffffff;
+}
+
+#header #search
+{
+    vertical-align: middle;
+    text-align: right;
+    padding-right: 20px;
+}
+
+#searchform INPUT
+{
+    background-image: URL('images/search.gif');
+    background-position: 3% 50%;
+    background-repeat: no-repeat;
+    border: 0px solid #aaaaaa;
+    margin: 0px;
+    margin-top: 5px;
+    background-color: #000000;
+    padding-left: 18px;
+    color: #ffffff;
+    font-size: 8pt;
+    height: 20px;
+    border-radius: 11px;
+    -moz-border-radius: 11px;
+    -webkit-border-radius: 11px;
+}
+
+#recent
+{
+    margin: 0px 0px 30px 0px;
+    padding: 10px 5px;
+    color: #ffffff;
+    background-color: #777777;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+
+#recentheader
+{
+    padding: 5px 10px;
+    font-size: large;
+    font-family: "Trebuchet MS", "Gill Sans", Skia, "Century Gothic";
+}
+
+#recentmore
+{
+    float: right;
+    font-size: small;
+    background-color: #b70100;
+    cursor: pointer;
+}
+
+#recentclose
+{
+    background-color: #b70100;
+    color: #ffffff;
+    float: left;
+    clear: left;
+    padding: 1px 3px 3px 3px;
+    font-family: Verdana;
+    font-size: xx-small;
+    font-weight: bold;
+    /* border: 1px solid #ffffff; */
+    margin-right: 8px;
+    cursor: pointer;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+#recentlist
+{
+    margin: 10px;
+}
+
+#recentlist ul
+{
+    margin: 0px 0px 0px -20px;
+}
+
+#recentlist ul li
+{
+    list-style-type: none;
+    color: #ffffff;
+    border-top: 1px solid #cccccc;
+    padding: 2px 5px;
+    font-size: small;
+}
+
+#recentlist ul li:last-child
+{
+    border-bottom: solid 1px #cccccc;
+}
+
+#recentlist a, #recentlist a:hover
+{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#sidebartab
+{
+    width: 20px;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    padding: 7px 0px;
+    font-size: smaller;
+    background-color: #111111;
+    color: #cccccc;
+    cursor: pointer;
+    -webkit-border-bottom-left-radius: 8px;
+    -webkit-border-top-left-radius: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-topleft: 8px;
+    opacity: 0.8;
+    filter: alpha(opacity = 80);
+}
+
+#tdsidebar,
+#sidebar
+{
+    background-color: #ff9f06;
+    border-radius-bottomleft: 30px; 
+    -webkit-border-bottom-left-radius: 30px;
+    -moz-border-radius-bottomleft: 30px; 
+}
+
+#sidebar
+{
+    color: #111111;
+    padding: 10px;
+    padding-top: 15px;
+    height: 100%;
+}
+
+#sidebar fieldset.sidebarlist
+{
+    font-size: small;
+    border: none;
+    padding: 0px;
+    margin: 20px 12px 40px 12px;
+    padding: 10px 20px 5px 6px;
+    background-color: #ffdd99;
+    border-radius: 10px; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px; 
+}
+
+#sidebar legend
+{
+    font-family: "Trebuchet MS", Verdana, Helvetica;
+    font-size: 10pt;
+    font-weight: normal;
+    color: #ffffff;
+    background-color: #846d21;
+    padding: 5px 10px;
+    margin: 0;
+    margin-left: 5px;
+    border-radius: 10px; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px; 
+}
+
+#sidebar .sidebarlist ul, #postaction ul
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+#sidebar .sidebarlist li, #postaction li
+{
+    border: none;
+    border-top: 1px solid #ffffff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0px;
+    margin-left: 15px;
+    margin-right: 10px;
+    list-style-type: none;
+}
+
+#sidebar .sidebarlist li:first-child, #postaction li:first-child
+{
+    border: none;
+}
+
+#sidebar #calendar_wrap
+{
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 10px;
+}
+
+#sidebar #wp-calendar
+{
+    margin-left: auto;
+    margin-right: auto;
+    border-spacing: 0px;
+}
+
+#sidebar #wp-calendar caption
+{
+    margin-bottom: 5px;
+    letter-spacing: 0.1em;
+    color: #222222;
+}
+
+#sidebar #wp-calendar thead th
+{
+    padding: 3px 5px;
+    color: #ffffff;
+    background-color: #ff9f06;
+}
+
+#sidebar #wp-calendar tbody td
+{
+    color: #a08050;
+    padding: 2px 3px;
+    border-width: 0px;
+    border-style: none;
+}
+
+#sidebar #wp-calendar tfoot td.pad
+{
+    background-color: #ff9f06;
+}
+
+#sidebar #wp-calendar tfoot td#next,
+#sidebar #wp-calendar tfoot td#prev
+{
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: #dd6f06;
+}
+
+#sidebar #wp-calendar thead th:first-child,
+#sidebar #wp-calendar tfoot td#prev
+{
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+}
+
+#sidebar #wp-calendar thead th:last-child,
+#sidebar #wp-calendar tfoot td#next
+{
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topright: 5px;
+}
+
+#sidebar #wp-calendar tfoot a
+{
+    color: #ffffff;
+}
+
+#sidebar .textwidget
+{
+    padding: 5px 8px;
+    color: #334400;
+}
+
+.sidebarlist a
+{
+    color: #553333;
+}
+
+#content
+{
+    margin: 0px;
+    padding: 20px 30px;
+    padding-top: 30px;
+    width: 100%;
+    background-color: #aaaaaa;
+    border-radius-bottomright: 30px; 
+    -webkit-border-bottom-right-radius: 30px;
+    -moz-border-radius-bottomright: 30px; 
+}
+
+.post
+{
+    margin-bottom: 50px;
+}
+
+.post fieldset
+{
+    background-color: #ffffff;
+    padding: 0px;
+    padding-top: 20px;
+    /* Firefox uses padding-left to determine Fieldset Legend margin!!! */
+    padding-left: 15px;
+    border-style: none;
+    border-radius: 20px; 
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px; 
+}
+
+.post fieldset legend.title,
+fieldset#comments legend,
+fieldset.comment legend,
+fieldset#responsebox legend
+{
+    background-color: #6f900d;
+    border: 0px solid #666666;
+    font-size: large;
+    padding: 4px 20px;
+    margin-left: 15px; /* doesn't work for Firefox -- see comment above in .post fieldset */
+    border-radius: 8px; 
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px; 
+    font-family: "Trebuchet MS", "Gill Sans", Helvetica, Arial;
+}
+
+legend, legend a
+{
+    color: #ffffff;
+}
+
+.dateauthor
+{
+    float: right;
+    margin: 0px 20px;
+    font-size: small;
+}
+
+.dateauthor .capsule,
+.nocomments .capsule
+{
+    background-color: #cc9900;
+}
+
+.entry
+{
+    padding: 10px 25px;
+    color: #111111;
+}
+
+.entry, .commenttext
+{
+    font-size: small;
+}
+
+.entry A:hover
+{
+    text-decoration: none;
+    border-bottom: 1px dotted #aaaaaa;
+}
+
+#postaction
+{
+    float: right;
+    clear: right;
+    padding: 10px 15px 10px 10px;
+    margin: 20px;
+    background-color: #dd6f06;
+    font-size: small;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px; 
+}
+
+#postaction a
+{
+    color: #ffffff;
+}
+
+.postmetadata
+{
+    text-align: left;
+    padding: 8px 10px 32px 10px;
+    background-color: #eeeeee;
+    margin: 0px;
+    margin-left: -15px; /* see hack for Firefox in .post frameset above */
+    clear: both;
+    -webkit-border-bottom-left-radius: 20px;
+    -webkit-border-bottom-right-radius: 20px;
+    -moz-border-radius-bottomleft: 20px;
+    -moz-border-radius-bottomright: 20px;
+}
+
+.postmetadata #commentlink
+{
+    background-color: #dd6f06;
+    float: right;
+    padding: 3px 8px;
+}
+
+.postmetadata .cattrigger
+{
+    cursor: pointer;
+    float: left;
+    /*
+    background-image: URL('images/down_arrow.png');
+    background-position: 85% 50%;
+    padding: 3px 35px 3px 10px;
+    background-repeat: no-repeat;
+    */
+    padding: 3px 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    -webkit-border-radius: 8px; /* webkit can't render larger radius for smaller height */
+    border-width: 0px;
+}
+
+.postcattags
+{
+    padding: 4px 10px 8px 10px;
+    margin: 4px 10px 0px 10px;
+    background-color: #ffffff;
+    color: #442222;
+    border-radius: 12px; 
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px; 
+    clear: both;
+    text-align: left;
+}
+
+.postcattags .capsule
+{
+    font-size: small;
+    padding: 1px 4px;
+    margin-right: 5px;
+    line-height: 20px;
+    -webkit-border-radius: 8px; /* see comment above for .cattriger */
+}
+
+#single .postmetadata .cattrigger
+{
+    font-weight: bold;
+}
+
+.postcats
+{
+    background-image: URL('images/cat2.png');
+    background-position: 3% 50%;
+    padding: 5px 35px 5px 45px;
+    background-repeat: no-repeat;
+}
+
+.posttags
+{
+    margin-top: 15px;
+    background-image: URL('images/tag2.png');
+    background-position: 3% 50%;
+    padding: 5px 35px 5px 45px;
+    background-repeat: no-repeat;
+}
+
+#single .postcattags
+{
+    border-style: none;
+}
+
+#single .postcattags .capsule
+{
+    background-color: #ffddaa;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    float: left;
+}
+
+#single .postcattags .capsule a
+{
+    color: #772200;
+}
+
+FIELDSET#comments
+{
+    background-color: #c9ba90;
+    padding: 0px;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    border-style: none;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px; 
+}
+
+fieldset#responsebox
+{
+    background-color: #ffffff;
+	color: #333333;
+    margin-top: 50px;
+    padding: 10px 30px;
+    border-style: none;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px; 
+}
+
+fieldset.comment
+{
+    border: none;
+    background-color: #ffffff;
+    margin: 30px 40px 30px 25px;
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 15px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px; 
+}
+
+fieldset.comment legend
+{
+    font-size: medium !important;
+}
+
+fieldset.comment IMG.avatar,
+fieldset.comment .commenttext
+{
+    padding-top: 5px;
+}
+
+fieldset.comment .commenttext
+{
+    padding-right: 30px;
+    padding-left: 30px;
+	color: #333333;
+}
+
+.entry UL, .page UL, .entry OL, .page OL
+{
+	margin-left: 0px;
+	padding: 15px;
+	padding-left: 30px;
+	background-color: #d0f0ff;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px; 
+}
+
+.post LI, .page LI
+{
+    padding: 4px 0px;
+	margin-left: 0px;
+    /*border-bottom: 1px dotted #aaaaaa;*/
+}
+
+.post LI:first-child, .page LI:first-child
+{
+    /*border-top: 1px dotted #aaaaaa;*/
+}
+
+.entry > P:first-child:first-letter
+{
+    color: #662222;
+    font-size: larger;
+}
+
+.navigation .capsule
+{
+    font-size: large;
+}
+
+#rsslinks
+{
+    position: fixed;
+    z-index: 15;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 4px 10px;
+    margin: 0px;
+    font-family: Helvetica;
+    font-size: 8pt;
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 9pt;
+    font-weight: bold;
+    text-align: right;
+    opacity: 0.8;
+    filter: alpha(opacity = 80);
+    border-style: none;
+}
+
+#rsslinks .capsule
+{
+    /* firefox likes padding here */
+    float: right;
+    margin-right: 5px;
+    padding: 2px 10px !important;
+    background-color: #000000;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+#rsslinks a
+{
+    color: #ffffff;
+}
+
+#credits
+{
+    margin: 0px;
+    font-family: "Trebuchet MS", Verdana, Helvetica;
+    padding: 5px;
+    padding-right: 10px;
+    background-color: #333333;
+    color: #ddcc33;
+    opacity: 0.8;
+    filter: alpha(opacity = 80);
+}
+
+#credits A
+{
+    color: #ffffff;
+}
+
+#respond INPUT#submit
+{
+	font-weight: bold;
+    font-size: medium;
+    cursor: pointer;
+	border: none;
+	padding: 3px 10px;
+}
+
+#respond TEXTAREA, #respond INPUT.inptext
+{
+    border: 1px solid #aaaadd;
+    background-color: #eeeeee;
+    width: 80% !important;
+}
+
+fieldset#comments .postmetadata,
+.replybuttonbox
+{
+    padding: 10px 25px;
+    text-align: right;
+}
+
+.capsule
+{
+    text-align: center;
+    padding: 4px 10px;
+    font-family: Optima, Verdana, Helvetica;
+    font-size: small;
+    color: #ffffff;
+    background-color: #dd6f06;
+    border-radius: 10px; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px; 
+}
+
+.capsule a
+{
+    color: #ffffff;
+}
+
+img.avatar
+{
+    float: left;
+    margin: 5px 20px 20px 15px;
+    border-radius: 10px; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px; 
+}
+
+/* required as per wordpress.org */
+
+.aligncenter, div.aligncenter
+{
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.alignleft
+{
+   float: left;
+}
+
+.alignright
+{
+   float: right;
+}
+
+.wp-caption
+{
+   border: 1px solid #ddd;
+   text-align: center;
+   background-color: #f3f3f3;
+   padding-top: 4px;
+   margin: 10px;
+   /* optional rounded corners for browsers that support it */
+   border-radius: 3px;
+   -moz-border-radius: 3px;
+   -khtml-border-radius: 3px;
+   -webkit-border-radius: 3px;
+}
+
+.wp-caption img
+{
+   margin: 0;
+   padding: 0;
+   border: 0 none;
+}
+
+.wp-caption p.wp-caption-text
+{
+   font-size: 11px;
+   line-height: 17px;
+   padding: 0 4px 5px;
+   margin: 0;
+}
+

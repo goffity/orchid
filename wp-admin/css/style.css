@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+/**
+#
+# How to Check Username Availability using jQuery + PHP
+# Author  hairul azami a.k.a dr.emi <webmaster@dremi.info>
+# Web development and design service => info@dremi.net
+# Website http://dremi.info http://dremi.net
+# License: GPL
+# File: form.php
+#
+**/
+
+* { font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#333333; }
+form { width:500px; margin:0 auto; }
+fieldset { border:solid 2px #ccc;padding:20px; background-color:#ffffff;}
+legend { padding:0 15px 0 10px;font:bold .8em "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;font-weight:bold;color:#666;text-transform:uppercase;border:1px solid #ccc;background:#f4f4f4;letter-spacing:2px }
+label { margin-bottom:10px; color:#555555;display:block;font-weight:bold; font-size:12px; }
+input { float:left;background:#efefef; border: solid 1px #c0c0c0; margin-bottom:10px; margin-right:10px; }
+.require { font-size:10px;color:#006600; }
+#submit { background:#CCCCCC; border: solid 1px #999999; }
+.clear { clear:both; }

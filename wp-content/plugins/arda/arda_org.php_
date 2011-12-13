@@ -1,0 +1,105 @@
+<?/*
+Plugin Name: Orchid Web Portal
+Plugin URI: http://www.uknoecenter.org
+Description: Plugin is Orchid Web Portal
+Author: Vasuthep Khunthong 
+Version: 1.0
+Author URI: http://www.uknoecenter.org
+*/
+
+//Add Option Page
+
+if ( ! defined( 'WP_CONTENT_URL' ) )
+  define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
+if ( ! defined( 'WP_CONTENT_DIR' ) )
+  define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+if ( ! defined( 'WP_PLUGIN_URL' ) )
+  define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+if ( ! defined( 'WP_PLUGIN_DIR' ) )
+  define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+ if ( is_dir( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . "arda" ) ) {
+	define ( 'MYGUIDE_DIR', WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . "arda" );
+ }
+//$myguide_path = WP_PLUGIN_URL . "/arda"; 
+
+//echo STAGS_DIR;
+//require( MYGUIDE_DIR.'/widgets.php'); 		// Widgets
+//echo WP_PLUGIN_URL;
+
+//Actions & Filters
+add_filter('the_content', 'getContent_orchid', 1);
+
+
+if ( is_admin() ){
+	/* Call the html code */
+	add_action('admin_menu', 'arda_admin_actions');
+	
+	function arda_admin_actions() {
+	add_options_page('arda_option', 'arda_option', 'administrator',
+	'arda_option', 'arda_admin_actionsx');
+	}
+}
+
+function getContent_orchid($content) {
+
+	/*preg_match_all('#\[myguide([^\]]*?)\]#i', $content, $found);
+	//print_r($found);
+	for ($i=0; $i< count($found[0]);$i++) {
+		/*$varstring = str_replace("[myguide","", $found[0][$i]);
+		$varstring = str_replace("]","", $varstring);
+		$varstring = trim($varstring);*/
+		
+	/*	$varstring=$found[0][$i];
+		if($varstring=="[myguide]"){
+			$formstr=myguide_direction();
+			$content = str_replace($found[0][0],$formstr,$content);
+		}elseif ($varstring=="[myguide_1]"){
+			$formstr=myguide_multi_direction();
+			$content = str_replace($found[0][0],$formstr,$content);
+		}else{
+			$content=$content;
+		}
+	}	*/
+	return $content;
+}
+//------Function myguide_multi_direction -------
+//include"multi_direction.php";
+//------Function myguide_multi_direction -------
+
+
+/*function myguide_direction(){
+//
+$formstring= '<img src="'. WP_PLUGIN_URL.'/myguide/myguide.png"  width="100" height="100">
+<form id=d_edit_form action="'. WP_PLUGIN_URL.'/myguide/map_multi.php" method="GET">
+		<table>
+			<tr>
+				<td>ที่อยู่เริ่มต้น :</td>
+				<td >
+						<input  id="d_d" type="text" name="saddr" title="ที่อยู่เริ่มต้น" tabindex="3" maxlength="2048" >
+				</td>
+			</tr>
+			<tr>
+				<td>ที่อยู่ปลายทาง :</td>
+				<td >
+					<input class="wp" type="text" id="d_daddr" name="daddr" title="ที่อยู่ปลายทาง" tabindex="4" maxlength="2048">
+				</td>
+			
+		</tr>
+		<tr>
+			<td>
+				<input id="d_sub" type="submit" name="btnG" tabindex="6" class="btn" value="ขอเส้นทาง" />
+			</td>
+		</tr>
+	</table>
+	
+</form>';
+return $formstring;
+}*/
+function arda_admin_actionsx(){
+	include"./form/index.php";
+}
+
+add_action('publish_page', 'arda_admin_actionsx');
+// Register Widget
+//add_action( 'widgets_init', create_function('', 'return register_widget("MyGuide_Widget");') );
+?>

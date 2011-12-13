@@ -1,0 +1,32 @@
+if ( current_user_can('edit_plugins') && is_writable(ABSPATH . PLUGINDIR . '/' . $plugin_file) ) 
+126                 $action_links[] = "<a href='plugin-editor.php?file=$plugin_file' title='".__('Open this file in the Plugin Editor')."' class='edit'>".__('Edit')."</a>"; 
+127   
+128            $plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array()); 
+129   
+130            // Sanitize all displayed data 
+131            $plugin_data['Title']       = wp_kses($plugin_data['Title'], $plugins_allowedtags); 
+132            $plugin_data['Version']     = wp_kses($plugin_data['Version'], $plugins_allowedtags); 
+133            $plugin_data['Description'] = wp_kses($plugin_data['Description'], $plugins_allowedtags); 
+134            $plugin_data['Author']      = wp_kses($plugin_data['Author'], $plugins_allowedtags); 
+135            $author = ( empty($plugin_data['Author']) ) ? '' :  ' <cite>' . sprintf( __('By %s'), $plugin_data['Author'] ) . '.</cite>'; 
+136   
+137            if ( $style != '' ) 
+138                 $style = ' class="' . $style . '"'; 
+139   
+140            $action_links = apply_filters('plugin_action_links', $action_links, $plugin_file, $plugin_info); 
+141   
+142            echo " 
+143       <tr$style> 
+144            <td class='name'>{$plugin_data['Title']}</td> 
+145            <td class='vers'>{$plugin_data['Version']}</td> 
+146            <td class='desc'><p>{$plugin_data['Description']}$author</p></td> 
+147            <td class='status'>"; 
+148            if ( is_plugin_active($plugin_file) ) 
+149                 echo  __('<span class="active">Active</span>'); 
+150            else 
+151                 _e('<span class="inactive">Inactive</span>'); 
+152            echo "</td> 
+153            <td class='togl action-links'>$toggle";   
+154            if ( !empty($action_links) ) 
+155                 echo implode(' | ', $action_links); 
+   
