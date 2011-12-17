@@ -50,7 +50,7 @@ $svalue='';
 <div id="header">
 
 	<div id="menu_search_box">
-		<form method="get" id="searchform" name="searchform" style="display:inline;" action="http://localhost:81/wordpress2/?s=" onsubmit="return chk_search()">
+		<form method="get" id="searchform" name="searchform" style="display:inline;" action="<?php bloginfo('url');?>/?s=" onsubmit="return chk_search()">
 			<span id="searchLabel">Search:&nbsp;</span>
 			<input type="text" class="s" value="<?php echo $svalue; ?>" name="s" id="s" onBlur="sblur()" onFocus="return sfocus()" />
 				

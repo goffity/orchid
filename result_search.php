@@ -6,7 +6,6 @@ $chk_s=$_GET['s'];
 
 $query="SELECT * FROM search_key WHERE key_name LIKE '".$chk_s."%' ";
 $result=mysql_query($query,$Connect)or die(mysql_error());
-//$result2=mysql_query($query,$Connect)or die(mysql_error());
 
 $row=mysql_fetch_array($result);
 
@@ -59,7 +58,7 @@ $_SESSION['key_id'] = $row['key_id'];
 		//echo "ID: ".$_SESSION['src_type_id'];
 		$sql = "SELECT `search_type`.`search_type_id`, `search_type`.`search_name` FROM `search_type` WHERE (`search_type_id` = '".$_SESSION['src_type_id']."');";
 		//echo $sql."<br>";
-		$query_result_search_type = mysql_query($sql,$Connect) or die(mysql_errno());
+		$query_result_search_type = mysql_query($sql,$Connect) or die(mysql_error());
 		$search_type_result = mysql_fetch_array($query_result_search_type);
 		//echo "XXXX: ".empty($search_type_result);
 
@@ -83,7 +82,7 @@ $_SESSION['key_id'] = $row['key_id'];
     					OR 
     					(`disease_name_eng` ='".$_SESSION['key_word']."');";
 
-			$query_disease_id = mysql_query($sql,$Connect) or die(mysql_errno());
+			$query_disease_id = mysql_query($sql,$Connect) or die(mysql_error());
 			$search_disease_id = mysql_fetch_array($query_disease_id);
 
 			//query disease ref
@@ -95,20 +94,21 @@ $_SESSION['key_id'] = $row['key_id'];
 					WHERE 
 						(`disease_id` ='".$search_disease_id['disease_id']."');";
 
-			$query_fam_id = mysql_query($sql,$Connect) or die(mysql_errno());
+			$query_fam_id = mysql_query($sql,$Connect) or die(mysql_error());
 			$search_fam_id = mysql_fetch_array($query_fam_id);
 
 			$_SESSION['fam_id'] = $search_fam_id['family_id'];
 
-			//TODO add dis to array
-
 		}else {
+		//	echo "<BR>src_name: ".$_SESSION['src_name'];
 			$sql = "SELECT `family_id` FROM ".$_SESSION['src_name']." WHERE `key_id` = '".$_SESSION['key_id']."'";
-			//echo "SQL: ".$sql;
-			$query_result_fam_id = mysql_query($sql,$Connect) or die(mysql_errno());
+		//	echo "<BR>SQL: ".$sql;
+			$query_result_fam_id = mysql_query($sql,$Connect) or die(mysql_error());
 			$search_fam_id = mysql_fetch_array($query_result_fam_id);
 
+		//	echo "<BR>XXXX ".$_SESSION['fam_id'];
 			$_SESSION['fam_id'] = $search_fam_id['family_id'];
+		//	echo "<BR>FAM_id: ".$_SESSION['fam_id'];
 		}
 
 
@@ -122,12 +122,6 @@ $_SESSION['key_id'] = $row['key_id'];
 		<?php
 
 		//query หาชื่อ สกุล จาก table keywordRef , orchid varity , family
-		$sql_1="SELECT family.family_id,family.FamilyName_TH AS FamName, family.FamilyID AS FamID
-		 FROM family
-		 LEFT JOIN orchid_varity
-		 ON(family.FamilyID=orchid_varity.FamilyID)
-		 WHERE
-		 orchid_varity.key_id='".$row['key_id']."'";
 
 		$sql_1 = "SELECT `family_id` , `family_name_th` , `family_name_eng` , `family_characteristic` FROM `family` WHERE (`family_id` = '".$_SESSION['fam_id']."');";
 
@@ -135,7 +129,7 @@ $_SESSION['key_id'] = $row['key_id'];
 		$set1_result=mysql_fetch_array($sql_1_result);
 
 		$_SESSION['fam_id'] = $set1_result['family_id'];
-		//echo "ZZZZ ".$_SESSION['fam_id'];
+		//echo "<BR>ZZZZ ".$_SESSION['fam_id'];
 		?>
 		<tr>
 			<td style="padding-left: 30px;"><a
@@ -176,20 +170,14 @@ $_SESSION['key_id'] = $row['key_id'];
 					echo "[".$a."]  ".$set2_result['orchid_name_th'] ;?> </a></li></td>
 		</tr>
 		<?php $a++; } ?>
+
 		<tr>
 			<td height="30" bgcolor="#E3E9F1"><span style="padding-left: 20px;"><b>โรคที่เกี่ยวข้อง</b>
 			</span></td>
 		</tr>
 		<?php
 		//query หาโรคที่เกี่ยวข้อง จ่าก table disease , diseaseRef และ Family
-		/*$query_ds=" SELECT DieseaseName_TH
-			FROM disease
-			LEFT JOIN disease_relation
-			ON(disease.DiseaseID=disease_relation.DiseaseID)
-			WHERE
-			disease_relation.FamilyID='".$set1_result['FamID']."'
-			";*/
-
+		//echo "<BR> disease";
 		$query_ds="SELECT
     				`disease_id`
     				, `disease_name_th`
@@ -217,7 +205,9 @@ $_SESSION['key_id'] = $row['key_id'];
 					href="<?php bloginfo('url');?>/?s=<?php echo $set3_result['disease_name_th'];?>"><?php echo "[".$b."]  ".$set3_result['disease_name_th']." (".$set3_result['disease_name_eng'].")" ;?>
 				</a></li></td>
 		</tr>
-		<?php $b++; } ?>
+		<?php $b++;
+		} ?>
+
 		<tr>
 			<td height="30" bgcolor="#E3E9F1"><span style="padding-left: 20px;"><b>งานวิจัยที่เกี่ยวข้อง</b>
 			</span></td>
@@ -225,40 +215,112 @@ $_SESSION['key_id'] = $row['key_id'];
 		<?php
 
 		//query หางานวิจัยที่เกี่ยวข้อง
-		$query_Rm=" SELECT research.Title_THAI AS Rm, research.Creator AS Rm_Creator
-			FROM research
-			LEFT JOIN research_refference
-			ON(research.ResearchID=research_refference.ResearchID)
-			WHERE
-			research_refference.FamilyID='".$set1_result['FamID']."'
 
-";
-		$sql_4_result=mysql_query($query_Rm,$Connect)or die(mysql_error());
+		//FIXME FORTEST
+		//$_SESSION['fam_id'] = 1;
+
+		$sql_research_ref  =	"SELECT
+									`Id` 
+									, `researcher_id` 
+									, `rc_content_id` 
+									, `family_id` 
+								FROM `researcher_ref` 
+								WHERE (`family_id` ='".$_SESSION['fam_id']."');";
+
+		//echo "<BR> SQL: ".$sql_research_ref;
+		$query_research_ref=mysql_query($sql_research_ref,$Connect)or die(mysql_error());
+
+		/*
+		 while ($row_research_ref = mysql_fetch_row($query_research_ref)) {
+			echo "<BR>row: ".$row_research_ref[2];
+			$result_res[] = $row_research_ref;
+			}
+
+			echo "<BR> cou ".count($result_res);
+			for ($i = 0; $i < count($result_res); $i++) {
+			$research_ref_id .= $result_res[$i][2];
+			if ($i < count($result_res) -1 ) {
+			$research_ref_id .= ",";
+			}
+			}
+			*/
+
+		while ($row_research_ref = mysql_fetch_assoc($query_research_ref)) {
+		//	echo "<BR>row2: ".$row_research_ref['rc_content_id'];
+			$result_res[] = $row_research_ref;
+		}
+		/*
+		 $research_length = count($query_research_ref_result);
+		 echo "<BR>research_length ".count($query_research_ref_result);
+		 echo "<BR>research_length ".sizeof($query_research_ref_result);
+		 $research_ref_id = "";
+
+		 while ($query_research_ref_result = mysql_fetch_array($query_research_ref)) {
+			$research_ref_id .= $query_research_ref_result['rc_content_id'].",";
+			}*/
+
+		for ($i = 0; $i < count($result_res); $i++) {
+			$research_ref_id .= $result_res[$i]['rc_content_id'];
+			if ($i < count($result_res) -1 ) {
+				$research_ref_id .= ",";
+			}
+		}
+
+		//echo "<BR>research_ref_id ".$research_ref_id;
+		//FIXME FORTEST
+		//$research_ref_id = 554;
+
+		$sql_research = "SELECT
+    						`rc_content_id`
+    						, `rc_creator`
+    						, `rc_title_th`
+    						, `rc_title_eng`
+    						, `family_id`
+						FROM
+    						`research_content`
+						WHERE 
+							(`rc_content_id` IN ('".$research_ref_id."')
+    						AND `family_id` ='".$_SESSION['fam_id']."');";
+
+		//echo "<BR> SQL: ".$sql_research;
+
+		$query_research=mysql_query($sql_research,$Connect)or die(mysql_error());
+
+		while ($query_research_result = mysql_fetch_array($query_research)) {
+		//	echo "<BR> loop";
+			$result_research_content[] = $query_research_result;
+		}
+
+		/*while (!empty($result_research_content)) {
+			echo "<BR>res ".$result_research_content['rc_title_th'];
+			}*/
+
 		//query สำหรับ loop ของ นักวิจัย
-		$sql_5_result=mysql_query($query_Rm,$Connect)or die(mysql_error());
+		//$sql_5_result=mysql_query($sql_research,$Connect)or die(mysql_error());
 
-		$c=1;
-		while($set4_result=mysql_fetch_array($sql_4_result)){?>
+		for ($c = 0; $c < count($result_research_content); $c++) {?>
 		<tr>
 			<td style="padding-left: 30px;"><li><a
-					href="<?php bloginfo('url');?>/?s=<?php echo $set4_result['Rm'];?>"><?php echo "[".$c."]  ".$set4_result['Rm'] ;?>
+					href="<?php bloginfo('url');?>/?s=<?php echo $result_research_content[$c]['rc_title_th'];?>"><?php $ind = $c+1; echo "[".$ind."]  ".$result_research_content[$c]['rc_title_th'] ;?>
 				</a></li></td>
 		</tr>
-		<?php $c++; } ?>
+		<?php }?>
 
 		<tr>
 			<td height="30" bgcolor="#E3E9F1"><span style="padding-left: 20px;"><b>นักวิจัยที่เกี่ยวข้อง</b>
 			</span></td>
 		</tr>
 		<?php
-		$d=1;
-		while($set5_result=mysql_fetch_array($sql_5_result)){?>
+
+		for ($i = 0; $i < count($result_research_content); $i++) {?>
 		<tr>
 			<td style="padding-left: 30px;"><li><a
-					href="<?php bloginfo('url');?>/?s=<?php echo $set5_result['Rm_Creator'];?>"><?php echo "[".$d."]  ".$set5_result['Rm_Creator'] ;?>
+					href="<?php bloginfo('url');?>/?s=<?php echo $result_research_content[$i]['rc_creator'];?>"><?php $ind = $i+1; echo "[".$ind."]  ".$result_research_content[$i]['rc_creator'] ;?>
 				</a></li></td>
 		</tr>
-		<?php $d++; } ?>
+		<?php }?>
+		
+		
 
 	</table>
 </body>

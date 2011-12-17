@@ -48,7 +48,7 @@
     <td height="30" bgcolor="#E3E9F1" style="padding-left:20px;"><strong>ผลลัพธ์ข้อมูล</strong></td>
   </tr>
   <tr>
-    <td><a href="http://localhost:81/wordpress2/?s=<?php echo $chk_s;?>"><?php echo $chk_s;?></a></td>
+    <td><a href="<?php bloginfo('url');?>/?s=<?php echo $chk_s;?>"><?php echo $chk_s;?></a></td>
   </tr>
 <?php 
 	//ตรวจสอบผลลัพธ์ข้อมูลที่อยู่ในกลุ่มเดียวกัน
@@ -58,7 +58,7 @@ $z=1;
 while($set0=mysql_fetch_array($show_result)){
 ?>  
   <tr>
-	<td style="padding-left:30px;"><li><a href="http://localhost:81/wordpress2/?s=<?php echo $set0['Key_Desc'];?>"><?php echo "[".$z."]  ".$set0['Key_Desc'] ;?></a></li></td>  
+	<td style="padding-left:30px;"><li><a href="<?php bloginfo('url');?>/?s=<?php echo $set0['Key_Desc'];?>"><?php echo "[".$z."]  ".$set0['Key_Desc'] ;?></a></li></td>  
   </tr>
 <?php $z++;}?>  
  
@@ -80,7 +80,7 @@ $sql_1_result=mysql_query($sql_1,$Connect) or die(mysql_error());
 $set1_result=mysql_fetch_array($sql_1_result);
 ?>
 <tr>
-   <td style="padding-left:30px;"><a href="http://localhost:81/wordpress2/?s=<?php echo $set1_result['FamName'] ;?>"><?php echo $set1_result['FamName'] ;?></a></td>
+   <td style="padding-left:30px;"><a href="<?php bloginfo('url');?>/?s=<?php echo $set1_result['FamName'] ;?>"><?php echo $set1_result['FamName'] ;?></a></td>
 </tr>
 
   <tr>
@@ -101,7 +101,7 @@ $sql_2_result=mysql_query($query_ord,$Connect) or die(mysql_error());
 $a=1;
 while($set2_result=mysql_fetch_array($sql_2_result)){?>  
   <tr>
-    <td style="padding-left:30px;"><li><a href="http://localhost:81/wordpress2/?s=<?php echo $set2_result['FamName'];?>"><?php echo "[".$a."]  ".$set2_result['FamName'] ;?></a></li></td>
+    <td style="padding-left:30px;"><li><a href="<?php bloginfo('url');?>/?s=<?php echo $set2_result['FamName'];?>"><?php echo "[".$a."]  ".$set2_result['FamName'] ;?></a></li></td>
   </tr>
 <?php $a++; } ?>  
   <tr>
@@ -122,7 +122,7 @@ $sql_3_result=mysql_query($query_ds,$Connect)or die(mysql_error());
 $b=1;
 while($set3_result=mysql_fetch_array($sql_3_result)){?>  
   <tr>
-    <td style="padding-left:30px;"><li><a href="http://localhost:81/wordpress2/?s=<?php echo $set3_result['DieseaseName_TH'];?>"><?php echo "[".$b."]  ".$set3_result['DieseaseName_TH'] ;?></a></li></td>
+    <td style="padding-left:30px;"><li><a href="<?php bloginfo('url');?>/?s=<?php echo $set3_result['DieseaseName_TH'];?>"><?php echo "[".$b."]  ".$set3_result['DieseaseName_TH'] ;?></a></li></td>
   </tr>
 <?php $b++; } ?>  
   <tr>
@@ -146,7 +146,7 @@ $sql_5_result=mysql_query($query_Rm,$Connect)or die(mysql_error());
 $c=1;
 while($set4_result=mysql_fetch_array($sql_4_result)){?>  
   <tr>
-    <td style="padding-left:30px;"><li><a href="http://localhost:81/wordpress2/?s=<?php echo $set4_result['Rm'];?>"><?php echo "[".$c."]  ".$set4_result['Rm'] ;?></a></li></td>
+    <td style="padding-left:30px;"><li><a href="<?php bloginfo('url');?>/?s=<?php echo $set4_result['Rm'];?>"><?php echo "[".$c."]  ".$set4_result['Rm'] ;?></a></li></td>
   </tr>
 <?php $c++; } ?>  
 
@@ -157,7 +157,7 @@ while($set4_result=mysql_fetch_array($sql_4_result)){?>
 $d=1;
 while($set5_result=mysql_fetch_array($sql_5_result)){?>  
   <tr>
-    <td style="padding-left:30px;"><li><a href="http://localhost:81/wordpress2/?s=<?php echo $set5_result['Rm_Creator'];?>"><?php echo "[".$d."]  ".$set5_result['Rm_Creator'] ;?></a></li></td>
+    <td style="padding-left:30px;"><li><a href="<?php bloginfo('url');?>/?s=<?php echo $set5_result['Rm_Creator'];?>"><?php echo "[".$d."]  ".$set5_result['Rm_Creator'] ;?></a></li></td>
   </tr>
 <?php $d++; } ?>  
 
