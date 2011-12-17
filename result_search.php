@@ -94,23 +94,41 @@ $_SESSION['key_id'] = $row['key_id'];
 					WHERE 
 						(`disease_id` ='".$search_disease_id['disease_id']."');";
 
-			$query_fam_id = mysql_query($sql,$Connect) or die(mysql_error());
-			$search_fam_id = mysql_fetch_array($query_fam_id);
+		}else if ($_SESSION['src_name'] == "family"){
+			$sql = "SELECT
+    					`family_id`
+    					, `family_name_th`
+    					, `family_name_eng`
+    					, `Status`
+    					, `Update_date`
+					FROM
+    					`family`
+					WHERE 
+						(`family_name_th` = '".$_SESSION['key_word']."')
+    					OR (`family_name_eng` ='".$_SESSION['key_word']."');"; 
 
-			$_SESSION['fam_id'] = $search_fam_id['family_id'];
+		}else if ($_SESSION['src_name'] == "research") {
+			$sql = "SELECT
+    					`family_id`
+					FROM
+    					`research_content`
+					WHERE 
+						(`family_id` ='".$_SESSION['key_word']."');";
 
-		}else {
-		//	echo "<BR>src_name: ".$_SESSION['src_name'];
-			$sql = "SELECT `family_id` FROM ".$_SESSION['src_name']." WHERE `key_id` = '".$_SESSION['key_id']."'";
-		//	echo "<BR>SQL: ".$sql;
-			$query_result_fam_id = mysql_query($sql,$Connect) or die(mysql_error());
-			$search_fam_id = mysql_fetch_array($query_result_fam_id);
-
-		//	echo "<BR>XXXX ".$_SESSION['fam_id'];
-			$_SESSION['fam_id'] = $search_fam_id['family_id'];
-		//	echo "<BR>FAM_id: ".$_SESSION['fam_id'];
+		}else if ($_SESSION['src_name'] == "orchid_varity"){
+			$sql = "SELECT
+    					`family_id`
+					FROM
+    					`orchid_varity`;";
 		}
 
+
+		echo "<BR> SQL: ".sql;
+		$query_fam_id = mysql_query($sql,$Connect) or die(mysql_error());
+		$search_fam_id = mysql_fetch_array($query_fam_id);
+
+		echo "<BR>fam: ".$search_fam_id['family_id'];
+		$_SESSION['fam_id'] = $search_fam_id['family_id'];
 
 		//query
 		?>
@@ -124,12 +142,14 @@ $_SESSION['key_id'] = $row['key_id'];
 		//query หาชื่อ สกุล จาก table keywordRef , orchid varity , family
 
 		$sql_1 = "SELECT `family_id` , `family_name_th` , `family_name_eng` , `family_characteristic` FROM `family` WHERE (`family_id` = '".$_SESSION['fam_id']."');";
+		echo("<BR>SQL: ".$sql_1);
+
 
 		$sql_1_result=mysql_query($sql_1,$Connect) or die(mysql_error());
 		$set1_result=mysql_fetch_array($sql_1_result);
 
 		$_SESSION['fam_id'] = $set1_result['family_id'];
-		//echo "<BR>ZZZZ ".$_SESSION['fam_id'];
+		echo "<BR>ZZZZ ".$_SESSION['fam_id'];
 		?>
 		<tr>
 			<td style="padding-left: 30px;"><a
@@ -219,16 +239,18 @@ $_SESSION['key_id'] = $row['key_id'];
 		//FIXME FORTEST
 		//$_SESSION['fam_id'] = 1;
 
-		$sql_research_ref  =	"SELECT
-									`Id` 
-									, `researcher_id` 
-									, `rc_content_id` 
-									, `family_id` 
-								FROM `researcher_ref` 
-								WHERE (`family_id` ='".$_SESSION['fam_id']."');";
+		/*
+		 $sql_research_ref  =	"SELECT
+		 `Id`
+		 , `researcher_id`
+		 , `rc_content_id`
+		 , `family_id`
+		 FROM `researcher_ref`
+		 WHERE (`family_id` ='".$_SESSION['fam_id']."');";
 
+		 */
 		//echo "<BR> SQL: ".$sql_research_ref;
-		$query_research_ref=mysql_query($sql_research_ref,$Connect)or die(mysql_error());
+		//$query_research_ref=mysql_query($sql_research_ref,$Connect)or die(mysql_error());
 
 		/*
 		 while ($row_research_ref = mysql_fetch_row($query_research_ref)) {
@@ -244,11 +266,12 @@ $_SESSION['key_id'] = $row['key_id'];
 			}
 			}
 			*/
-
-		while ($row_research_ref = mysql_fetch_assoc($query_research_ref)) {
-		//	echo "<BR>row2: ".$row_research_ref['rc_content_id'];
+		/*
+		 while ($row_research_ref = mysql_fetch_assoc($query_research_ref)) {
+			//	echo "<BR>row2: ".$row_research_ref['rc_content_id'];
 			$result_res[] = $row_research_ref;
-		}
+			}
+			*/
 		/*
 		 $research_length = count($query_research_ref_result);
 		 echo "<BR>research_length ".count($query_research_ref_result);
@@ -259,35 +282,37 @@ $_SESSION['key_id'] = $row['key_id'];
 			$research_ref_id .= $query_research_ref_result['rc_content_id'].",";
 			}*/
 
-		for ($i = 0; $i < count($result_res); $i++) {
+		/*
+		 for ($i = 0; $i < count($result_res); $i++) {
 			$research_ref_id .= $result_res[$i]['rc_content_id'];
 			if ($i < count($result_res) -1 ) {
-				$research_ref_id .= ",";
+			$research_ref_id .= ",";
 			}
-		}
+			}
+			*/
 
 		//echo "<BR>research_ref_id ".$research_ref_id;
 		//FIXME FORTEST
 		//$research_ref_id = 554;
 
+
 		$sql_research = "SELECT
-    						`rc_content_id`
-    						, `rc_creator`
-    						, `rc_title_th`
-    						, `rc_title_eng`
-    						, `family_id`
-						FROM
-    						`research_content`
-						WHERE 
-							(`rc_content_id` IN ('".$research_ref_id."')
-    						AND `family_id` ='".$_SESSION['fam_id']."');";
+		 `rc_content_id`
+		 , `rc_creator`
+		 , `rc_title_th`
+		 , `rc_title_eng`
+		 , `family_id`
+		 FROM
+		 `research_content`
+		 WHERE
+		 `family_id` ='".$_SESSION['fam_id']."';";			
 
 		//echo "<BR> SQL: ".$sql_research;
 
 		$query_research=mysql_query($sql_research,$Connect)or die(mysql_error());
 
 		while ($query_research_result = mysql_fetch_array($query_research)) {
-		//	echo "<BR> loop";
+			//	echo "<BR> loop";
 			$result_research_content[] = $query_research_result;
 		}
 
@@ -314,13 +339,17 @@ $_SESSION['key_id'] = $row['key_id'];
 
 		for ($i = 0; $i < count($result_research_content); $i++) {?>
 		<tr>
-			<td style="padding-left: 30px;"><li><a
-					href="<?php bloginfo('url');?>/?s=<?php echo $result_research_content[$i]['rc_creator'];?>"><?php $ind = $i+1; echo "[".$ind."]  ".$result_research_content[$i]['rc_creator'] ;?>
-				</a></li></td>
+			<td style="padding-left: 30px; color: black;"><li><?php $ind = $i+1; echo "[".$ind."]  ".$result_research_content[$i]['rc_creator'] ;?>
+			</li></td>
 		</tr>
-		<?php }?>
-		
-		
+		<?php
+		}
+
+		session_unset();
+
+		?>
+
+
 
 	</table>
 </body>
