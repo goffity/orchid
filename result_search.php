@@ -7,13 +7,35 @@ $chk_s=$_GET['s'];
 $query="SELECT * FROM search_key WHERE key_name LIKE '".$chk_s."%' ";
 $result=mysql_query($query,$Connect)or die(mysql_error());
 
-$row=mysql_fetch_array($result);
+$num_row = mysql_num_rows($result);
 
-$_SESSION['key_word'] = $chk_s;
-$_SESSION['key_id'] = $row['key_id'];
-//echo $row['key_id'];
+if ($num_row == 0) {
+	//finnis
+	?>
+<html>
+<body>
+	<table width="100%" border="0" align="center" cellpadding="0"
+		cellspacing="2">
+		<tr>
+			<td height="30" bgcolor="#E3E9F1"
+				style="text-align: center;font-size: large;">ไม่พบข้อมูลที่ค้นหา</td>
+		</tr>
+	</table>
+</body>
+</html>
+	<?php
+}else{
 
-?>
+
+
+	$row=mysql_fetch_array($result);
+
+	$_SESSION['key_word'] = $chk_s;
+	$_SESSION['key_id'] = $row['key_id'];
+	echo "<BR>Key ".$row['key_id'];
+	echo "<BR>Key ".$chk_s;
+
+	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -57,7 +79,7 @@ $_SESSION['key_id'] = $row['key_id'];
 		//query search_type
 		//echo "ID: ".$_SESSION['src_type_id'];
 		$sql = "SELECT `search_type`.`search_type_id`, `search_type`.`search_name` FROM `search_type` WHERE (`search_type_id` = '".$_SESSION['src_type_id']."');";
-		//echo $sql."<br>";
+		echo "<BR>".$sql."<br>";
 		$query_result_search_type = mysql_query($sql,$Connect) or die(mysql_error());
 		$search_type_result = mysql_fetch_array($query_result_search_type);
 		//echo "XXXX: ".empty($search_type_result);
@@ -66,7 +88,7 @@ $_SESSION['key_id'] = $row['key_id'];
 
 		//search family id
 		if($_SESSION['src_name'] == "disease"){
-			$sql = "SELECT
+			$sql_search_fam = "SELECT
 						`disease_id`
     					, `disease_name_th`
     					, `disease_name_eng`
@@ -82,11 +104,11 @@ $_SESSION['key_id'] = $row['key_id'];
     					OR 
     					(`disease_name_eng` ='".$_SESSION['key_word']."');";
 
-			$query_disease_id = mysql_query($sql,$Connect) or die(mysql_error());
+			$query_disease_id = mysql_query($sql_search_fam,$Connect) or die(mysql_error());
 			$search_disease_id = mysql_fetch_array($query_disease_id);
 
 			//query disease ref
-			$sql = "SELECT
+			$sql_search_fam = "SELECT
     					`disease_id`
     					,`family_id`
 					FROM
@@ -95,7 +117,7 @@ $_SESSION['key_id'] = $row['key_id'];
 						(`disease_id` ='".$search_disease_id['disease_id']."');";
 
 		}else if ($_SESSION['src_name'] == "family"){
-			$sql = "SELECT
+			$sql_search_fam = "SELECT
     					`family_id`
     					, `family_name_th`
     					, `family_name_eng`
@@ -108,23 +130,26 @@ $_SESSION['key_id'] = $row['key_id'];
     					OR (`family_name_eng` ='".$_SESSION['key_word']."');"; 
 
 		}else if ($_SESSION['src_name'] == "research") {
-			$sql = "SELECT
+			$sql_search_fam = "SELECT
     					`family_id`
 					FROM
     					`research_content`
 					WHERE 
-						(`family_id` ='".$_SESSION['key_word']."');";
+						(`rc_title_th` ='".$_SESSION['key_word']."')
+    					OR (`rc_title_eng` ='".$_SESSION['key_word']."');";
 
 		}else if ($_SESSION['src_name'] == "orchid_varity"){
-			$sql = "SELECT
+			$sql_search_fam = "SELECT
     					`family_id`
 					FROM
-    					`orchid_varity`;";
+    					`orchid_varity`
+    				WHERE
+    					(`orchid_name_th` = '".$_SESSION['key_word']."')
+    					OR (`ochid_name_eng` = '".$_SESSION['key_word']."');";
 		}
 
-
-		echo "<BR> SQL: ".sql;
-		$query_fam_id = mysql_query($sql,$Connect) or die(mysql_error());
+		echo "<BR> SQL: ".$sql_search_fam;
+		$query_fam_id = mysql_query($sql_search_fam,$Connect) or die(mysql_error());
 		$search_fam_id = mysql_fetch_array($query_fam_id);
 
 		echo "<BR>fam: ".$search_fam_id['family_id'];
@@ -339,15 +364,15 @@ $_SESSION['key_id'] = $row['key_id'];
 
 		for ($i = 0; $i < count($result_research_content); $i++) {?>
 		<tr>
-			<td style="padding-left: 30px; color: black;"><li><?php $ind = $i+1; echo "[".$ind."]  ".$result_research_content[$i]['rc_creator'] ;?>
+			<td style="padding-left: 30px; color: white;"><li><?php $ind = $i+1; echo "[".$ind."]  ".$result_research_content[$i]['rc_creator'] ;?>
 			</li></td>
 		</tr>
 		<?php
 		}
 
 		session_unset();
-
-		?>
+}
+?>
 
 
 
