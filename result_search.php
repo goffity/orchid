@@ -18,7 +18,7 @@ if ($num_row == 0) {
 		cellspacing="2">
 		<tr>
 			<td height="30" bgcolor="#E3E9F1"
-				style="text-align: center;font-size: large;">ไม่พบข้อมูลที่ค้นหา</td>
+				style="text-align: center; font-size: large;">ไม่พบข้อมูลที่ค้นหา</td>
 		</tr>
 	</table>
 </body>
@@ -263,61 +263,6 @@ if ($num_row == 0) {
 
 		//FIXME FORTEST
 		//$_SESSION['fam_id'] = 1;
-
-		/*
-		 $sql_research_ref  =	"SELECT
-		 `Id`
-		 , `researcher_id`
-		 , `rc_content_id`
-		 , `family_id`
-		 FROM `researcher_ref`
-		 WHERE (`family_id` ='".$_SESSION['fam_id']."');";
-
-		 */
-		//echo "<BR> SQL: ".$sql_research_ref;
-		//$query_research_ref=mysql_query($sql_research_ref,$Connect)or die(mysql_error());
-
-		/*
-		 while ($row_research_ref = mysql_fetch_row($query_research_ref)) {
-			echo "<BR>row: ".$row_research_ref[2];
-			$result_res[] = $row_research_ref;
-			}
-
-			echo "<BR> cou ".count($result_res);
-			for ($i = 0; $i < count($result_res); $i++) {
-			$research_ref_id .= $result_res[$i][2];
-			if ($i < count($result_res) -1 ) {
-			$research_ref_id .= ",";
-			}
-			}
-			*/
-		/*
-		 while ($row_research_ref = mysql_fetch_assoc($query_research_ref)) {
-			//	echo "<BR>row2: ".$row_research_ref['rc_content_id'];
-			$result_res[] = $row_research_ref;
-			}
-			*/
-		/*
-		 $research_length = count($query_research_ref_result);
-		 echo "<BR>research_length ".count($query_research_ref_result);
-		 echo "<BR>research_length ".sizeof($query_research_ref_result);
-		 $research_ref_id = "";
-
-		 while ($query_research_ref_result = mysql_fetch_array($query_research_ref)) {
-			$research_ref_id .= $query_research_ref_result['rc_content_id'].",";
-			}*/
-
-		/*
-		 for ($i = 0; $i < count($result_res); $i++) {
-			$research_ref_id .= $result_res[$i]['rc_content_id'];
-			if ($i < count($result_res) -1 ) {
-			$research_ref_id .= ",";
-			}
-			}
-			*/
-
-		//echo "<BR>research_ref_id ".$research_ref_id;
-		//FIXME FORTEST
 		//$research_ref_id = 554;
 
 
@@ -340,13 +285,6 @@ if ($num_row == 0) {
 			//	echo "<BR> loop";
 			$result_research_content[] = $query_research_result;
 		}
-
-		/*while (!empty($result_research_content)) {
-			echo "<BR>res ".$result_research_content['rc_title_th'];
-			}*/
-
-		//query สำหรับ loop ของ นักวิจัย
-		//$sql_5_result=mysql_query($sql_research,$Connect)or die(mysql_error());
 
 		for ($c = 0; $c < count($result_research_content); $c++) {?>
 		<tr>
