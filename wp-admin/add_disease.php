@@ -7,12 +7,14 @@
  */
 
 /** Load WordPress Bootstrap */
+
 require_once('./admin.php');
 
 include("../Connect.php");
 mysql_select_db($database_Connect,$Connect);
 
 /** Load WordPress dashboard API */
+
 require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 
 wp_dashboard_setup();
@@ -49,13 +51,49 @@ require_once('./admin-header.php');
 
 $today = current_time('mysql', 1);
 
-?><div class="wrap">
+?>
+<style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+</style>
+
+<script type="text/javascript">
+function chk_submit()
+{
+	if(window.document.form1.nameTH.value.length == 0)
+	{
+		alert("กรุณากรอก ชื่อโรค( ภาษาไทย) " );
+		window.document.form1.nameTH.focus();
+		return false;
+	}
+	else if(window.document.form1.disease_url.value.length == 0)
+	{
+		alert("กรุณากรอก เว็บไซต์ที่มา" );
+		window.document.form1.disease_url.focus();
+		return false;
+	}
+	else if(window.document.form1.disease_detail.value.length == 0)
+	{
+		alert("กรุณากรอก เนื้อหา" );
+		window.document.form1.disease_detail.focus();
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+</script>
+
+
+<div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <div id="dashboard-widgets-wrap">
 <p>&nbsp;</p>
-  <form action="add_disease_action.php" method="post" enctype="multipart/form-data" name="form1">
+  <form action="add_disease_action.php" method="post" enctype="multipart/form-data" name="form1" onSubmit="return chk_submit()">
     <table width="900" border="0" align="center" cellpadding="0" cellspacing="2">
       <tr>
         <td width="298" height="25"><div align="right"><strong>ชื่อโรค( ภาษาไทย) </strong></div></td>
@@ -64,7 +102,7 @@ $today = current_time('mysql', 1);
             <label>
             <input name="nameTH" type="text" id="nameTH">
             </label>
-        </div></td>
+            <span class="style1">*</span></div></td>
       </tr>
       <tr>
         <td width="298" height="25"><div align="right"><strong>ชื่อโรค (ภาษาอังกฤษ) </strong></div></td>
@@ -132,7 +170,7 @@ $today = current_time('mysql', 1);
         <td height="25"><div align="center">:</div></td>
         <td height="25"><div align="left">
           <input name="disease_url" type="text" id="disease_url">
-        </div></td>
+          <span class="style1">*</span></div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"><strong>ที่มาของข้อมูล(เพิ่มเติม)</strong></div></td>
@@ -153,7 +191,7 @@ $today = current_time('mysql', 1);
           <label>
           <textarea name="disease_detail" cols="40" rows="5" id="disease_detail"></textarea>
           </label>
-        </div></td>
+          <span class="style1">*</span></div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"></div></td>
@@ -164,9 +202,9 @@ $today = current_time('mysql', 1);
         <td height="25">&nbsp;</td>
         <td height="25">&nbsp;</td>
         <td height="25"><label>
-          <input type="submit" name="Submit" value="Submit">
+          <input type="submit" name="Submit" value="บันทึก">
         &nbsp;&nbsp;&nbsp;
-        <input type="reset" name="Submit2" value="Reset">
+        <input type="reset" name="Submit2" value="ยกเลิก">
         </label></td>
       </tr>
     </table>

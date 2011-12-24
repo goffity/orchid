@@ -7,11 +7,13 @@
  */
 
 /** Load WordPress Bootstrap */
+
 require_once('./admin.php');
 
 include("../Connect.php");
 mysql_select_db($database_Connect,$Connect);
 /** Load WordPress dashboard API */
+
 require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 
 wp_dashboard_setup();
@@ -47,7 +49,6 @@ add_contextual_help($current_screen,
 require_once('./admin-header.php');
 
 $today = current_time('mysql', 1);
-
 ?>
 <script type="text/javascript">
 
@@ -60,6 +61,22 @@ function del(varUrl)
 }
 
 </script>
+
+
+<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="js/shadowbox/shadowbox.css">
+<script type="text/javascript" src="js/shadowbox/shadowbox.js"></script>
+<script type="text/javascript">
+Shadowbox.init({
+    
+	modal: false,
+	resizeDuration: "0.10"
+
+
+});
+</script>
+
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -80,7 +97,8 @@ $sql= "SELECT
 			disease_id,
 			disease_name_th,
 			disease_name_eng,
-			disease_url
+			disease_url,
+			key_id
 		FROM disease 
 		ORDER BY DiseaseID ASC";
 $result=mysql_query($sql,$Connect)or die(mysql_error());
@@ -92,8 +110,26 @@ while($row=mysql_fetch_array($result)){
 	  <tr style="background:<? if($count % 2 == 0){echo "#EAF3FF;";} else{echo "#FFFFFF;";}?>">
         <td height="25" style="padding-left:5px;"><?php echo $count;?></td>
         <td height="25" style="padding-left:5px;"><?php echo $row['disease_name_th']."[".$row['disease_name_eng']."]";?></td>
-        <td height="25" style="padding-left:5px;"><a href="<?php echo $row['disease_url'];?>" target="_blank"></a></td>
-        <td height="25" style="padding-left:5px;"><a href="view_disease.php?DiseaseID=<?php echo $row['disease_id']?>">View</a>&nbsp;|&nbsp;<a href="#" onClick= "del('action.php?do=del_disease&DiseaseID=<?php echo $row['disease_id']?>')">Delete</a></td>
+        <td height="25" style="padding-left:5px;">
+        <?php 
+			$sql_family="SELECT family.family_name_th AS fam_th,
+								family.family_name_eng as fam_en
+						FROM family
+						LEFT JOIN disease_ref
+						ON(family.family_id = disease_ref.family_id )
+						WHERE disease_ref.disease_id ='".$row['disease_id']."'
+			";
+			
+			$result_family = mysql_query($sql_family,$Connect) or die(mysql_error());
+			
+			while($row_family=mysql_fetch_array($result_family))
+			{
+				echo $row_family['fam_th']."[".$row_family['fam_en']."], ";
+			}
+			
+		?>
+        </td>
+        <td height="25" style="padding-left:5px;"><a href="view_disease.php?disease_id=<?php echo $row['disease_id']?>" rel="shadowbox;height=500;width=900;">View</a>&nbsp;|&nbsp;<a href="#" onClick= "del('action.php?do=del_disease&disease_id=<?php echo $row['disease_id']?>&key_id=<?php echo $row['key_id'];?>&nameTH=<?php echo $row['disease_name_th'];?>&nameEN=<?php echo $row['disease_name_eng'];?>')">Delete</a></td>
       </tr>
 <? $count++;}?>    
 	</table>

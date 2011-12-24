@@ -3,6 +3,8 @@ include 'wp-includes/class-IXR.php';
 
 $client = new IXR_Client('http://localhost/wordpress2/xmlrpc.php');
 
+$title = $_REQUEST[''];
+
 $note = array(
     'title'             => 'Hello World!',   //title
     'description'        => 'to będzie wstęp...',  //content

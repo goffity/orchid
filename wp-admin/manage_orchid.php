@@ -7,12 +7,14 @@
  */
 
 /** Load WordPress Bootstrap */
-require_once('./admin.php');
 
+require_once('./admin.php');
 include("../Connect.php");
+
 mysql_select_db($database_Connect,$Connect);
 
 /** Load WordPress dashboard API */
+
 require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 
 wp_dashboard_setup();
@@ -63,6 +65,23 @@ function del(varUrl)
 
 </script>
 
+<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="js/shadowbox/shadowbox.css">
+<script type="text/javascript" src="js/shadowbox/shadowbox.js"></script>
+<script type="text/javascript">
+Shadowbox.init({
+    
+	modal: false,
+	resizeDuration: "0.10"
+
+
+});
+</script>
+
+
+
+
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
@@ -73,13 +92,14 @@ function del(varUrl)
 	$sql="SELECT 
 				orchid_varity.orchid_id AS orchidID,
 				orchid_varity.orchid_name_th AS orchidTH,
-				orchid_varity.ochid_name_eng AS orchidEN,
+				orchid_varity.orchid_name_eng AS orchidEN,
 				orchid_varity.orchid_url AS orchidRef,
+				orchid_varity.key_id AS key_id,
 				family.family_name_th AS famName
 	 FROM orchid_varity 
 			LEFT JOIN family 
 	ON (orchid_varity.family_id = family.family_id)
-	ORDER BY orchid_varity.orchid_id ASC
+	ORDER BY orchid_varity.orchid_id DESC
 	";
 	$result=mysql_query($sql,$Connect)or die(mysql_error());
 ?>
@@ -102,7 +122,7 @@ $count=1;
         <td height="25" style="padding-left:5px;"><div align="left"><?php echo $count;?></div></td>
         <td height="25" style="padding-left:5px;"><div align="left"><?php echo $row['orchidTH']."[".$row['orchidEN']."]";?></div></td>
         <td height="25" style="padding-left:5px;"><div align="left"><?php echo $row['famName'];?></div></td>
-        <td height="25" style="padding-left:5px;"><div align="left"><a href="view_orchid.php?orchidID=<?php echo $row['orchidID']?>">View</a>&nbsp;|&nbsp;<a href="#" onClick= "del('action.php?do=del_orchid&orchidID=<?php echo $row['orchidID']?>&nameTH=<?php echo $row['orchidTH'];?>&nameEN=<?php echo $row['orchidEN'];?>')">Delete</a></div></td>
+        <td height="25" style="padding-left:5px;"><div align="left"><a href="view_orchid.php?orchidID=<?php echo $row['orchidID']?>" rel="shadowbox;height=500;width=900;" >View</a>&nbsp;|&nbsp;<a href="#" onClick= "del('action.php?do=del_orchid&orchidID=<?php echo $row['orchidID']?>&key_id=<?php echo $row['key_id'];?>&nameTH=<?php echo $row['orchidTH'];?>&nameEN=<?php echo $row['orchidEN'];?>')">Delete</a></div></td>
       </tr>
 <?php $count++;}?>	  
     </table>

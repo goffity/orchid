@@ -9,10 +9,12 @@
 /** Load WordPress Bootstrap */
 require_once('./admin.php');
 
+
 include("../Connect.php");
 mysql_select_db($database_Connect,$Connect);
 
 /** Load WordPress dashboard API */
+
 require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 
 wp_dashboard_setup();
@@ -48,8 +50,54 @@ add_contextual_help($current_screen,
 require_once('./admin-header.php');
 
 $today = current_time('mysql', 1);
-
 ?>
+
+<link rel="stylesheet" type="text/css" media="all" href="themes/winxp.css" title="Calendar Theme - winxp.css" >
+<script type="text/javascript" src="src/utils.js"></script>
+<script type="text/javascript" src="src/calendar.js"></script>
+<script type="text/javascript" src="lang/calendar-en.js"></script>
+<script type="text/javascript" src="src/calendar-setup.js"></script>
+
+<script type="text/javascript">
+function chk_submit()
+{
+	if(window.document.form1.nameTH.value.length == 0)
+	{
+		alert("กรุณากรอก ชื่องานวิจัย /บทความ (ภาษาไทย)" );
+		window.document.form1.nameTH.focus();
+		return false;
+	}
+	else if(window.document.form1.orchid_family.value.length == 0)
+	{
+		alert("กรุณาเลือก สกุล" );
+		window.document.form1.orchid_family.focus();
+		return false;
+	}
+	else if(window.document.form1.creator.value.length == 0)
+	{
+		alert("กรุณากรอก ชื่อผู้แต่ง / องค์กรที่จัดทำ / ผู้จัดทำงานวิจัย" );
+		window.document.form1.creator.focus();
+		return false;
+	}
+	else if(window.document.form1.rc_description.value.length == 0)
+	{
+		alert("กรุณากรอก รายละเอียดเอกสารงานวิจัย" );
+		window.document.form1.rc_description.focus();
+		return false;
+	}
+	else if(window.document.form1.rc_identifer.value.length == 0)
+	{
+		alert("กรุณากรอก แหล่งที่มาของข้อมูลเว็บไซต์" );
+		window.document.form1.rc_identifer.focus();
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+</script>
+
 <style type="text/css">
 <!--
 .style1 {color: #FF0000}
@@ -63,87 +111,152 @@ $today = current_time('mysql', 1);
 
 <div id="dashboard-widgets-wrap">
 <p>&nbsp;</p>
-  <form action="add_orchid_action.php" method="post" enctype="multipart/form-data" name="form1">
+  <form action="add_research_action.php" method="post" enctype="multipart/form-data" name="form1" onReset="resetDates()" onSubmit="return chk_submit()">
     <table width="900" border="0" align="center" cellpadding="0" cellspacing="2">
       <tr>
-        <td width="298" height="25"><div align="right">ชื่อเอกสาร/บทความ (ภาษาไทย)</div></td>
+        <td width="298" height="25"><div align="right"><strong>ชื่องานวิจัย /บทความ (ภาษาไทย)</strong></div></td>
         <td width="23" height="25"><div align="center">:</div></td>
         <td width="571" height="25"><div align="left">
-            <label>
             <input name="nameTH" type="text" id="nameTH">
-            </label>
-        </div></td>
+            <span class="style1">*</span></div></td>
       </tr>
       <tr>
-        <td height="25"><div align="right">ชื่อเอกสาร/บทความ (ภาษาอังกฤษ)</div></td>
+        <td height="25"><div align="right"><strong>ชื่องานวิจัย/บทความ (ภาษาอังกฤษ)</strong></div></td>
         <td height="25"><div align="center">:</div></td>
         <td height="25"><div align="left">
           <input name="nameEN" type="text" id="nameEN">
         </div></td>
       </tr>
       <tr>
-        <td height="25"><div align="right">ชื่อผู้แต่ง /องค์กรที่จัดทำ</div></td>
+        <td height="25"><div align="right"><strong> สกุล </strong></div></td>
         <td height="25"><div align="center">:</div></td>
         <td height="25"><div align="left">
-          <input name="nameEN2" type="text" id="nameEN2">
-        </div></td>
-      </tr>
-      <tr>
-        <td height="25"><div align="right">ผู้มีส่วนร่วมในการจัดทำเอกสาร</div></td>
-        <td height="25"><div align="center">:</div></td>
-        <td height="25"><div align="left">
-          <input name="nameEN22" type="text" id="nameEN22">
-        </div></td>
-      </tr>
-      <tr>
-        <td height="25"><div align="right">สำนักพิมพ์</div></td>
-        <td height="25"><div align="center">:</div></td>
-        <td height="25"><div align="left">
-          <label></label>
-          <input name="nameEN222" type="text" id="nameEN222">
-        </div></td>
-      </tr>
-      <tr>
-        <td height="25"><div align="right">ประเภทของเอกสาร</div></td>
-        <td height="25"><div align="center">:</div></td>
-        <td height="25"><div align="left">
-          <select name="select" id="select">
-            <option>--select--</option>
-            <option value="บทความ">บทความ</option>
-            <option value="งานวิจัย">งานวิจัย</option>
-            <?php while($row_family=mysql_fetch_array($result_family)){?>
-            <?php }?>
-                    </select>
-        </div></td>
-      </tr>
-      <tr>
-        <td height="25"><div align="right">ชื่อวงศ์/สกุล </div></td>
-        <td height="25"><div align="center">:</div></td>
-        <td height="25"><div align="left">
-         <?php $query_family="SELECT * FROM family ORDER BY FamilyID ASC";
-		  		$result_family= mysql_query($query_family,$Connect)or die(mysql_error());
+		<?php 
+			//Select Family
+			$query_family = "SELECT family_id, family_name_th, family_name_eng FROM family WHERE Status='Y' ORDER BY family_id ASC";
+			$result_family = mysql_query($query_family,$Connect)or die(mysql_error());
 		?>
-		  <select name="family_name" id="family_name">
-		    <option>--select--</option>
-		<?php while($row_family=mysql_fetch_array($result_family)){?>
-		    <option value="<?php echo $row_family['FamilyID'];?>"><?php echo $row_family['FamilyName_TH'];?></option>
-        <?php }?>  
-		  </select>
-        </div></td>
+        <select name="orchid_family" id="orchid_family">
+          <option value="" selected="selected">--select--</option>
+          <?php while($row_family=mysql_fetch_array($result_family)){?>
+          <option value="<?php echo $row_family['family_id']?>"><?php echo $row_family['family_name_th']."(".$row_family['family_name_eng'].")";?></option>
+          <?php }?>
+        </select>
+        <span class="style1">*</span></div></td>
       </tr>
       <tr>
-        <td height="25"><div align="right"></div></td>
-        <td height="25"><div align="center"></div></td>
-        <td height="25"><div align="left"></div></td>
-      </tr>
-      <tr>
-        <td height="25"><div align="right">รายละเีอียด</div></td>
+        <td height="25"><div align="right"><strong>ชื่อผู้แต่ง / องค์กรที่จัดทำ / ผู้จัดทำงานวิจัย</strong></div></td>
         <td height="25"><div align="center">:</div></td>
         <td height="25"><div align="left">
-          <label>
-          <textarea name="detail" cols="70" rows="8" id="detail"></textarea>
-          </label>
+          <input name="creator" type="text" id="creator">
+          <span class="style1">*</span></div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>หน่วยงานที่เผยแพร่ </strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_publisher" type="text" id="rc_publisher">
         </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>คำสำคัญหรือดัชนีของเอกสาร</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_keyword" type="text" id="rc_keyword">
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25" valign="top"><div align="right"><strong>รายละเอียดเอกสารงานวิจัย</strong></div></td>
+        <td height="25" valign="top"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <textarea name="rc_description" cols="70" rows="10" id="rc_description"></textarea>
+          <span class="style1">*</span></div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>ผู้มีส่วนร่วมในงานวิจัย</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_contributor1" type="text" id="rc_contributor1">
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>ผู้มีส่วนร่วมในงานวิจัย</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_contributor2" type="text" id="rc_contributor2">
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>ผู้มีส่วนร่วมในงานวิจัย</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_contributor3" type="text" id="rc_contributor3">
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>วัน / เดือน / ปี ที่เผยแพร่งานวิจัย</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          	<input name="date8a" type="text" class="formpanel2" id="departure_date" value="" />
+			<input type="reset" class="formpanel2" id='button8a' value=" ... "  />
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>ชนิดของงานวิจัย</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_type" type="text" id="rc_type">
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>แหล่งที่มาของข้อมูล  เว็บไซด์</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_identifer" type="text" id="rc_identifer">
+          <span class="style1">*</span></div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>แหล่งที่มา</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_source" type="text" id="rc_source">
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>ภาษาที่ใช้ในเอกสารงานวิจัย</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_language" type="text" id="rc_language">
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>แหล่งที่มาเพิ่มเติม</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_relation" type="text" id="rc_relation">
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>รายละเอียดเกี่ยวกับลิขสิทธิ์ของเอกสาร</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <input name="rc_rights" type="text" id="rc_rights">
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong>สถานะการใช้งานข้อมูล</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+            <select name="rc_status" id="rc_status">
+              <option value="Y" selected="selected">เปิดใช้งาน</option>
+              <option value="N">ปิดการใช้งาน</option>
+            </select>
+        </div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"></div></td>
+        <td height="25"><div align="center"></div></td>
+        <td height="25"><div align="left"></div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"></div></td>
@@ -153,11 +266,11 @@ $today = current_time('mysql', 1);
       <tr>
         <td height="25">&nbsp;</td>
         <td height="25">&nbsp;</td>
-        <td height="25"><label>
-          <input type="submit" name="Submit" value="Submit">
+        <td height="25">
+          <input type="submit" name="Submit" value="บันทึก">
         &nbsp;&nbsp;&nbsp;
-        <input type="reset" name="Submit2" value="Reset">
-        </label></td>
+        <input type="reset" name="Submit2" value="ยกเลิก">
+        </td>
       </tr>
     </table>
     </form>
@@ -165,5 +278,41 @@ $today = current_time('mysql', 1);
 </div><!-- dashboard-widgets-wrap -->
 
 </div><!-- wrap -->
+	<script type="text/javascript">
+		<!--  to hide script contents from old browsers
+		var startDate;
+		var endDate;
+		var ONEDAY = 3600 * 24;
+
+		function resetDates() {
+			startDate = endDate = null;
+		}
+		// end hiding contents from old browsers  -->
+		
+		function chk_submit()
+		{
+			if(window.document.form1.date8a.value.length == 0)
+			{
+				alert("กรุณาเลือกวันที่ !!" );
+				window.document.form1.date8a.focus();
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		var cal = new Zapatec.Calendar.setup({
+		
+			inputField     :    "departure_date",   // id of the input field
+			button         :    "button8a",  // What will trigger the popup of the calendar
+			ifFormat       :    "%Y-%m-%d ",       //  of the input field
+			showsTime      :     false,      //no time
+			//saveDate       :    2            // save for two days
+			saveDate       :    0   
+		});
+			
+	</script>
 
 <?php require(ABSPATH . 'wp-admin/admin-footer.php'); ?>

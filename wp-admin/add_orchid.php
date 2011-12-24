@@ -7,8 +7,8 @@
  */
 
 /** Load WordPress Bootstrap */
-require_once('./admin.php');
 
+require_once('./admin.php');
 include("../Connect.php");
 include("../Connect2.php");
 mysql_select_db($database_Connect,$Connect);
@@ -49,7 +49,6 @@ add_contextual_help($current_screen,
 require_once('./admin-header.php');
 
 $today = current_time('mysql', 1);
-
 
 ?>
 <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
@@ -131,6 +130,39 @@ $(function(){
  	});
 });
 
+function chk_submit()
+{
+	if(window.document.form1.select_keyword.value.length == 0)
+	{
+		alert("กรุณาเลือก ชื่ออื่นๆ" );
+		window.document.form1.select_keyword.focus();
+		return false;
+	}
+	else if(window.document.form1.orchid_family.value.length == 0)
+	{
+		alert("กรุณาเลือก สกุล" );
+		window.document.form1.orchid_family.focus();
+		return false;
+	}
+	else if(window.document.form1.orchid_url.value.length == 0)
+	{
+		alert("กรุณากรอก เว็บไซต์ที่มา" );
+		window.document.form1.orchid_url.focus();
+		return false;
+	}
+	else if(window.document.form1.detail.value.length == 0)
+	{
+		alert("กรุณากรอก เนื้อหา" );
+		window.document.form1.detail.focus();
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
 </script>
 
 
@@ -147,7 +179,7 @@ $(function(){
 
 <div id="dashboard-widgets-wrap">
 <p>&nbsp;</p>
-  <form action="add_orchid_action.php" method="post" enctype="multipart/form-data" name="form1">
+  <form action="add_orchid_action.php" method="post" enctype="multipart/form-data" name="form1" onsubmit="return chk_submit();" >
     <table width="900" border="0" align="center" cellpadding="0" cellspacing="2">
       <tr>
         <td width="298" height="25"><div align="right"><strong>ชื่อพันธุ์ (ภาษาไทย)</strong></div></td>
@@ -159,13 +191,13 @@ $(function(){
             <span class="style1">*</span></div></td>
       </tr>
       <tr>
-        <td height="25"><div align="right"></div></td>
-        <td height="25"><div align="center"></div></td>
-        <td height="25"><div align="left">
+        <td height="25">&nbsp;</td>
+        <td height="25">&nbsp;</td>
+        <td height="25">
 			<div id="spinner"></div>
 			<div id="actionresult"></div>
 			<div class="clear"></div>
-		</div></td>
+		</td>
       </tr>
       <tr>
         <td height="25"><div align="right"><strong>ชื่อพันธุ์ (ภาษาอังกฤษ)</strong></div></td>
@@ -175,13 +207,13 @@ $(function(){
         </div></td>
       </tr>
       <tr>
-        <td height="25"><div align="right"></div></td>
-        <td height="25"><div align="center"></div></td>
-        <td height="25"><div align="left">
+        <td height="25">&nbsp;</td>
+        <td height="25">&nbsp;</td>
+        <td height="25" align="left">
 			<div id="sp_v2"></div>
 			<div id="actionresult2"></div>
 			<div class="clear"></div>
-		</div></td>
+		</td>
       </tr>
       <tr>
         <td height="25"><div align="right"><strong>ชื่ออื่นๆ</strong></div></td>
@@ -216,7 +248,7 @@ $(function(){
 		?>
         <?php $x++;}?>
           </select>
-          <span class="style1">*        </span></div></td>
+          <span class="style1">*</span></div></td>
       </tr>
 	  
       <tr>

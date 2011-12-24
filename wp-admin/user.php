@@ -10,9 +10,10 @@
 #
 **/
 
-define("_HOST", 	"localhost");
+define("_HOST", 	"localhost:3307");
 define("_USER", 	"root");
-define("_PASS", 	"1q2w3e4r");
+define("_PASS", 	"root");
+//define("_PASS", 	"123456");
 define("_DB", 		"wordpress2");
 
 $nameTH	= $_REQUEST['nameTH'];
@@ -124,7 +125,7 @@ if(isset($nameTH) && $nameTH != '')
 	//else 
 	//{
 		connect(_HOST, _USER, _PASS, _DB);
-		$jCekMember = numrows(query("SELECT * FROM orchid_varity WHERE orchid_name_th LIKE '".clearString($nameTH)."'"));
+		$jCekMember = numrows(query("SELECT * FROM orchid_varity WHERE orchid_name_th = '".clearString($nameTH)."'"));
 		
 		if($jCekMember > 0)
 		{
@@ -150,8 +151,9 @@ else if($msg == 'whitespace')
 }
 else if($nameTH =="")
 {
+	$msg = "กรุณาพิมพ์ชื่อภาษาไทย";
 	?>
-	<span style="color:red">กรุณาพิมพ์ชื่อภาษาไทย</span>
+	<span style="color:red"><?php echo $msg;?></span>
     <?php
 }
 
@@ -165,8 +167,8 @@ else if(isset($nameEN) && $nameEN != '')
 		//echo "SELECT * FROM orchid_varity WHERE orchid_name_en LIKE '".clearString($nameEN)."'";
 		
 		connect(_HOST, _USER, _PASS, _DB);
-		$jCekMember2 = numrows(query("SELECT * FROM orchid_varity WHERE ochid_name_eng LIKE '".clearString($nameEN)."'"));
-		if($jCekMember2 != 0)
+		$jCekMember = numrows(query("SELECT * FROM orchid_varity WHERE ochid_name_eng = '".clearString($nameEN)."'"));
+		if($jCekMember != 0)
 		{
 			?>
 			<span style="color:red"><?php echo $nameEN; ?> ไม่สามารถใช้ชื่อนี้ได้เนืองจากมีในระบบแล้ว.</span>
@@ -182,17 +184,5 @@ else if(isset($nameEN) && $nameEN != '')
 	//}
 }
 
-elseif($msg2 == 'whitespace2')
-{
-	?>
-	<span style="color:red">name cannot contain of white space</span>
-    <?php
-}
-else if($nameEN =="")
-{
-	?>
-	<span style="color:red">กรุณาพิมพ์ชื่อภาษาอังกฤษ</span>
-    <?php
-}
 
 ?>

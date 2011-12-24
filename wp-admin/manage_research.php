@@ -7,11 +7,13 @@
  */
 
 /** Load WordPress Bootstrap */
+
 require_once('./admin.php');
 
 include("../Connect.php");
 mysql_select_db($database_Connect,$Connect);
 /** Load WordPress dashboard API */
+
 require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 
 wp_dashboard_setup();
@@ -47,7 +49,6 @@ add_contextual_help($current_screen,
 require_once('./admin-header.php');
 
 $today = current_time('mysql', 1);
-
 ?>
 <script type="text/javascript">
 
@@ -61,6 +62,21 @@ function del(varUrl)
 
 </script>
 
+<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="js/shadowbox/shadowbox.css">
+<script type="text/javascript" src="js/shadowbox/shadowbox.js"></script>
+<script type="text/javascript">
+Shadowbox.init({
+    
+	modal: false,
+	resizeDuration: "0.10"
+
+
+});
+</script>
+
+
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
@@ -70,34 +86,33 @@ function del(varUrl)
 	<table width="1000" border="0" align="center" cellpadding="0" cellspacing="2">
       <tr>
         <td width="35" height="30" style="background-color:#C8D5E4;"><div align="center">No.</div></td>
-        <td width="159" height="30" style="background-color:#C8D5E4;"><div align="center">ชื่องานวิจัย TH </div></td>
-        <td width="170" height="30" style="background-color:#C8D5E4;"><div align="center">ชื่องานวิจัย EN</div></td>
-        <td width="165" height="30" style="background-color:#C8D5E4;"><div align="center">ชื่อผู้แต่ง /องค์กรที่จัดทำ</div></td>
-        <td width="164" height="30" style="background-color:#C8D5E4;"><div align="center">สำนักพิมพ์</div></td>
-        <td width="207" height="30" style="background-color:#C8D5E4;"><div align="center">ผู้มีส่วนร่วมในการจัดทำเอกสาร</div></td>
-        <td width="84" height="30" style="background-color:#C8D5E4;"><div align="center">Manage</div></td>
+        <td width="425" height="30" style="background-color:#C8D5E4;"><div align="center">ชื่องานวิจัย </div></td>
+        <td width="266" height="30" style="background-color:#C8D5E4;"><div align="center">ผู้จัดทำงานวิจัย </div></td>
+        <td width="159" height="30" style="background-color:#C8D5E4;"><div align="center">ชื่อสกุล</div></td>
+        <td width="103" height="30" style="background-color:#C8D5E4;"><div align="center">Manage</div></td>
       </tr>
 <?php 
-$sql= "select 
-		ResearchID AS RID,
-		Title_THAI AS titleTH,
-		Title_ENG AS titleEN,
-		Creator AS creator,
-		Contributor AS conbutor,
-		Publisher AS pbsher
-		from research ORDER BY ResearchID ASC";
+$sql= "SELECT 
+		rc_content_id AS RID,
+		rc_title_th AS titleTH,
+		rc_title_eng AS titleEN,
+		rc_creator AS creator,
+		family.family_name_th AS famTH,
+		family.family_name_eng AS famEN
+		FROM research_content 
+		LEFT JOIN family
+		ON(research_content.family_id=family.family_id)
+		ORDER BY research_content.rc_content_id DESC";
 $result=mysql_query($sql,$Connect)or die(mysql_error());
 $count=1;
 while($row=mysql_fetch_array($result)){
 ?>      
 	  <tr style="background:<? if($count % 2 == 0){echo "#EAF3FF;";} else{echo "#FFFFFF;";}?>">
         <td height="25" style="padding-left:5px;"><?php echo $count;?></td>
-        <td height="25" style="padding-left:5px;"><?php echo $row['titleTH'];?></td>
-        <td height="25" style="padding-left:5px;"><?php echo $row['titleEN'];?></td>
+        <td height="25" style="padding-left:5px;"><?php echo $showname = $row['titleTH']; if($row['titleEN'] != ''){echo $showname .= "[".$row['titleEN']."]"; }?></td>
         <td height="25" style="padding-left:5px;"><?php echo $row['creator'];?></td>
-        <td height="25" style="padding-left:5px;"><?php echo $row['pbsher'];?></td>
-        <td height="25" style="padding-left:5px;"><?php echo $row['conbutor'];?></td>
-        <td height="25" style="padding-left:5px;"><a href="view_research.php?RID=<?php echo $row['RID']?>">View</a>&nbsp;|&nbsp;<a href="#" onClick= "del('action.php?do=del_research&RID=<?php echo $row['RID']?>')">Delete</a></td>
+        <td height="25" style="padding-left:5px;"><?php echo $row['famTH']; if($row['famEN']){ echo " [".$row['famEN']."]";}?></td>
+        <td height="25" style="padding-left:5px;"><a href="view_research.php?RID=<?php echo $row['RID']?>" rel="shadowbox;height=500;width=900;" >View</a>&nbsp;|&nbsp;<a href="#" onClick= "del('action.php?do=del_research&RID=<?php echo $row['RID']?>')">Delete</a></td>
       </tr>
 <? $count++;}?>    
 	</table>

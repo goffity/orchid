@@ -32,8 +32,8 @@ if ($num_row == 0) {
 
 	$_SESSION['key_word'] = $chk_s;
 	$_SESSION['key_id'] = $row['key_id'];
-	echo "<BR>Key ".$row['key_id'];
-	echo "<BR>Key ".$chk_s;
+	//echo "<BR>Key ".$row['key_id'];
+	//echo "<BR>Key ".$chk_s;
 
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -79,7 +79,7 @@ if ($num_row == 0) {
 		//query search_type
 		//echo "ID: ".$_SESSION['src_type_id'];
 		$sql = "SELECT `search_type`.`search_type_id`, `search_type`.`search_name` FROM `search_type` WHERE (`search_type_id` = '".$_SESSION['src_type_id']."');";
-		echo "<BR>".$sql."<br>";
+		//echo "<BR>".$sql."<br>";
 		$query_result_search_type = mysql_query($sql,$Connect) or die(mysql_error());
 		$search_type_result = mysql_fetch_array($query_result_search_type);
 		//echo "XXXX: ".empty($search_type_result);
@@ -145,14 +145,14 @@ if ($num_row == 0) {
     					`orchid_varity`
     				WHERE
     					(`orchid_name_th` = '".$_SESSION['key_word']."')
-    					OR (`ochid_name_eng` = '".$_SESSION['key_word']."');";
+    					OR (`orchid_name_eng` = '".$_SESSION['key_word']."');";
 		}
 
-		echo "<BR> SQL: ".$sql_search_fam;
+		//echo "<BR> SQL: ".$sql_search_fam;
 		$query_fam_id = mysql_query($sql_search_fam,$Connect) or die(mysql_error());
 		$search_fam_id = mysql_fetch_array($query_fam_id);
 
-		echo "<BR>fam: ".$search_fam_id['family_id'];
+		//echo "<BR>fam: ".$search_fam_id['family_id'];
 		$_SESSION['fam_id'] = $search_fam_id['family_id'];
 
 		//query
@@ -167,14 +167,14 @@ if ($num_row == 0) {
 		//query หาชื่อ สกุล จาก table keywordRef , orchid varity , family
 
 		$sql_1 = "SELECT `family_id` , `family_name_th` , `family_name_eng` , `family_characteristic` FROM `family` WHERE (`family_id` = '".$_SESSION['fam_id']."');";
-		echo("<BR>SQL: ".$sql_1);
+		//echo("<BR>SQL: ".$sql_1);
 
 
 		$sql_1_result=mysql_query($sql_1,$Connect) or die(mysql_error());
 		$set1_result=mysql_fetch_array($sql_1_result);
 
 		$_SESSION['fam_id'] = $set1_result['family_id'];
-		echo "<BR>ZZZZ ".$_SESSION['fam_id'];
+		//echo "<BR>ZZZZ ".$_SESSION['fam_id'];
 		?>
 		<tr>
 			<td style="padding-left: 30px;"><a
@@ -193,7 +193,7 @@ if ($num_row == 0) {
 		$query_ord = "SELECT
     					`orchid_id`
     					, `orchid_name_th`
-    					, `ochid_name_eng`
+    					, `orchid_name_eng`
     					, `orchid_content1`
     					, `orchid_url`
     					, `orchid_status`
