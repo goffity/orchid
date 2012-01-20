@@ -69,15 +69,9 @@ echo "<BR>".$select_keyword;
 echo "<BR>".$orchid_family;
 
 $note = array(
-    'title'             => $nameTH.'('.$nameEN.')',   //title
-    'description'        => $detail,  //content
-//'mt_text_more'      => 'tre?? wpisu',    //tag more
-    'categories'        => array('โรค'),   //categories of post
-//    'mt_keywords'       => array($nameTH,$nameEN), // tag
-//'dateCreated'       => date(DATE_RFC822, mktime(0, 0, 0, 1, 1, 2000)),   //data publikacji wpisu
-//'wp_password'     => 'hasuo',    //has?o wpisu
-//'mt_allow_pings'    => true,  //zezwala? na pingbacki?
-//'mt_allow_comments' => true,  //a na komentarze?
+    'title'             => $nameTH.'('.$nameEN.')',
+    'description'        => $detail,
+    'categories'        => array('โรค')
 );
 
 if(!$client->query('metaWeblog.newPost', 1, 'admin', 'password', $note, true)){

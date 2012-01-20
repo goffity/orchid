@@ -7,11 +7,11 @@ $url = $_GET['rss_url'];
 
 ?>
 
-<html
+<html>
 <body LINK="#999999" VLINK="#000000">
 
 <form>
-<input type="text" name="rss_url" size="40" value="<?php echo $url ?>"><input type="Submit">
+<input type="text" name="rss_url" size="40" value="<?php echo $url ?>"><input type="Submit"/>
 </form>
 
 <?php
