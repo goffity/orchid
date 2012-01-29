@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration xmlns="http://logging.apache.org/log4php/">
 	<appender name="myAppender" class="LoggerAppenderFile">
-		<param name="datePattern" value="Y-m-d" />
-		<param name="file" value="myLog.log" />
+		<!-- <param name="datePattern" value="Y-m-d" /> -->
+		<param name="file" value="log/orchid.log" />
 		<layout class="LoggerLayoutPattern">
 			<param name="conversionPattern" value="%d{Y-m-d H:i:s.u} %F %c %-5p %m%n" />
 		</layout>
 	</appender>
 
 	<root>
-		<level value="WARN" />
+		<level value="ALL" />
 		<appender_ref ref="myAppender" />
 	</root>
 </configuration>

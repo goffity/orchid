@@ -44,6 +44,18 @@ body {
         <td height="25"><div align="center">:</div></td>
         <td height="25"><div align="left"><?php echo $show_row['orchid_name_eng'];?></div></td>
       </tr>
+      
+      <tr>
+        <td height="25"><div align="right"><strong>สกุล</strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+         <?php $query_family="SELECT family_name_th, family_name_eng FROM family WHERE family_id='".$show_row['family_id']."'";
+		  		$result_family= mysql_query($query_family,$Connect)or die(mysql_error());
+				$row_family=mysql_fetch_array($result_family);
+		echo $row_family['family_name_th']." [".$row_family['family_name_eng']."]";
+		?>
+		</div></td>
+      </tr>
 
       <tr>
         <td height="25"><div align="right"><strong>ชื่ออื่นๆ</strong></div></td>
@@ -58,17 +70,6 @@ body {
 				echo $row['key_name']." ,";
 		 }?>
         </div></td>
-      </tr>
-      <tr>
-        <td height="25"><div align="right"><strong>สกุล</strong></div></td>
-        <td height="25"><div align="center">:</div></td>
-        <td height="25"><div align="left">
-         <?php $query_family="SELECT family_name_th, family_name_eng FROM family WHERE family_id='".$show_row['family_id']."'";
-		  		$result_family= mysql_query($query_family,$Connect)or die(mysql_error());
-				$row_family=mysql_fetch_array($result_family);
-		echo $row_family['family_name_th']." [".$row_family['family_name_eng']."]";
-		?>
-		</div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"><strong>เว็บไซต์ที่มา</strong></div></td>

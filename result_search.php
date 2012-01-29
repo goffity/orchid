@@ -1,17 +1,26 @@
 <?php
 include("Connect.php");
+include 'logging.php';
+
+$log = logging::getLog(__FILE__);
+
 mysql_select_db($database_Connect,$Connect);
 
 $chk_s=$_GET['s'];
 
-$query="SELECT * FROM search_key WHERE key_name LIKE '".$chk_s."%' ";
-$result=mysql_query($query,$Connect)or die(mysql_error());
+if (empty($chk_s)) {
+	//don't display anything
+}else{
 
-$num_row = mysql_num_rows($result);
+	$query="SELECT * FROM search_key WHERE key_name LIKE '".$chk_s."%' ";
+	$result=mysql_query($query,$Connect)or die(mysql_error());
 
-if ($num_row == 0) {
-	//finnis
-	?>
+	$num_row = mysql_num_rows($result);
+	$log->debug("row: ".$num_row);
+
+	if ($num_row == 0) {
+		//finnis
+		?>
 <html>
 <body>
 	<table width="100%" border="0" align="center" cellpadding="0"
@@ -23,19 +32,23 @@ if ($num_row == 0) {
 	</table>
 </body>
 </html>
-	<?php
-}else{
+		<?php
+	}else{
 
+		/*while ($row=mysql_fetch_array($result)) {
+			$log->debug($row);
+			}*/
+		$row=mysql_fetch_array($result);
 
+		$log->debug("result search key: ".$row[0]);
 
-	$row=mysql_fetch_array($result);
+		$_SESSION['key_word'] = $chk_s;
+		$_SESSION['key_id'] = $row['key_id'];
+		//$log->debug("Key ".$row['key_id']);
+		//echo "<BR>Key ".$row['key_id'];
+		//echo "<BR>Key ".$chk_s;
 
-	$_SESSION['key_word'] = $chk_s;
-	$_SESSION['key_id'] = $row['key_id'];
-	//echo "<BR>Key ".$row['key_id'];
-	//echo "<BR>Key ".$chk_s;
-
-	?>
+		?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -63,9 +76,9 @@ if ($num_row == 0) {
 		while($set0=mysql_fetch_array($show_result)){
 			?>
 		<tr>
-			<td style="padding-left: 30px;"><li><a
-					href="<?php bloginfo('url');?>/?s=<?php echo $set0['key_name'];?>"><?php echo "[".$z."]  ".$set0['key_name'] ;?>
-				</a></li></td>
+			<td style="padding-left: 30px; color: white;"><li><?php echo "[".$z."]  ".$set0['key_name'] ;?>
+					<!-- <a href="<?php //bloginfo('url');?>/?s=<?php //echo $set0['key_name'];?>"><?php //echo "[".$z."]  ".$set0['key_name'] ;?></a> -->
+			</li></td>
 		</tr>
 		<?php
 
@@ -271,11 +284,13 @@ if ($num_row == 0) {
 		 , `rc_creator`
 		 , `rc_title_th`
 		 , `rc_title_eng`
+		 , `rc_keyword`
 		 , `family_id`
 		 FROM
 		 `research_content`
 		 WHERE
-		 `family_id` ='".$_SESSION['fam_id']."';";			
+		 `family_id` ='".$_SESSION['fam_id']."';";
+
 
 		//echo "<BR> SQL: ".$sql_research;
 
@@ -289,7 +304,7 @@ if ($num_row == 0) {
 		for ($c = 0; $c < count($result_research_content); $c++) {?>
 		<tr>
 			<td style="padding-left: 30px;"><li><a
-					href="<?php bloginfo('url');?>/?s=<?php echo $result_research_content[$c]['rc_title_th'];?>"><?php $ind = $c+1; echo "[".$ind."]  ".$result_research_content[$c]['rc_title_th'] ;?>
+					href="<?php bloginfo('url');?>/?s=<?php echo $result_research_content[$c]['rc_keyword'];?>"><?php $ind = $c+1; echo "[".$ind."]  ".$result_research_content[$c]['rc_title_th'] ;?>
 				</a></li></td>
 		</tr>
 		<?php }?>
@@ -309,6 +324,7 @@ if ($num_row == 0) {
 		}
 
 		session_unset();
+	}
 }
 ?>
 

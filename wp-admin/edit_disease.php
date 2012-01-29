@@ -31,13 +31,7 @@ body {
 <script type="text/javascript">
 function chk_submit()
 {
-	if(window.document.form1.disease_url.value.length == 0)
-	{
-		alert("กรุณากรอก เว็บไซต์ที่มา" );
-		window.document.form1.disease_url.focus();
-		return false;
-	}
-	else if(window.document.form1.disease_detail.value.length == 0)
+	if(window.document.form1.disease_detail.value.length == 0)
 	{
 		alert("กรุณากรอก เนื้อหา" );
 		window.document.form1.disease_detail.focus();
@@ -134,7 +128,7 @@ function chk_submit()
       <td height="25"><div align="left">
         <input name="disease_url" type="text" id="disease_url" value="<?php echo $show_row['disease_url'];?>" />
         <label></label>
-        <span class="style1">*</span></div></td>
+      </div></td>
     </tr>
     <tr>
       <td height="25"><div align="right"><strong>ที่มาของข้อมูล(เพิ่มเติม)</strong></div></td>

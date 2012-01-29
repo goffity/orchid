@@ -23,9 +23,8 @@ if($_POST['chk_edit']=="YES")
 	$rc_language=$_POST['rc_language'];
 	$rc_relation=$_POST['rc_relation'];
 	$rc_rights=$_POST['rc_rights'];
-	$rc_status=$_POST['rc_status'];
 	
-	$sql="UPDATE research_content SET rc_title_th='".$nameTH."', rc_title_eng='".$nameEN."', rc_creator='".$creator."',  rc_publisher='".$rc_publisher."',  rc_keyword='".$rc_keyword."', rc_description='".$rc_description."', rc_source='".$rc_source."', rc_language='".$rc_language."', rc_relation='".$rc_relation."', rc_rights='".$rc_rights."', rc_contributor1='".$rc_contributor1."', rc_contributor2='".$rc_contributor2."', rc_contributor3='".$rc_contributor3."', rc_date='".$date8a."', rc_type='".$rc_type."', rc_identifer='".$rc_identifer."', UpdateDate=now(), Status='".$rc_status."', family_id='".$orchid_family."' WHERE rc_content_id='".$RID."' ";
+	$sql="UPDATE research_content SET rc_title_th='".$nameTH."', rc_title_eng='".$nameEN."', rc_creator='".$creator."',  rc_publisher='".$rc_publisher."',  rc_keyword='".$rc_keyword."', rc_description='".$rc_description."', rc_source='".$rc_source."', rc_language='".$rc_language."', rc_relation='".$rc_relation."', rc_rights='".$rc_rights."', rc_contributor1='".$rc_contributor1."', rc_contributor2='".$rc_contributor2."', rc_contributor3='".$rc_contributor3."', rc_date='".$date8a."', rc_type='".$rc_type."', rc_identifer='".$rc_identifer."', UpdateDate=now(), family_id='".$orchid_family."' WHERE rc_content_id='".$RID."' ";
 	$result=mysql_query($sql,$Connect)or die(mysql_error());
 	
 	echo '<meta http-equiv="refresh" content="2;URL=view_research.php?RID='.$RID.'">';

@@ -191,13 +191,6 @@ $today = current_time('mysql', 1);
           <?php echo $row['rc_rights'];?></div></td>
       </tr>
       <tr>
-        <td height="25"><div align="right"><strong>สถานะการใช้งานข้อมูล</strong></div></td>
-        <td height="25"><div align="center">:</div></td>
-        <td height="25"><div align="left">
-        <?php if($row['Status']=="Y"){echo "เปิดใช้งาน";}else{echo "ปิดการใช้งาน"; }?>
-          </div></td>
-      </tr>
-      <tr>
         <td height="25"><div align="right"></div></td>
         <td height="25"><div align="center"></div></td>
         <td height="25"><div align="left"></div></td>

@@ -101,7 +101,85 @@ $sql= "SELECT
 			key_id
 		FROM disease 
 		ORDER BY DiseaseID ASC";
-$result=mysql_query($sql,$Connect)or die(mysql_error());
+	$P_result=mysql_query($sql, $Connect) or die(mysql_error());
+	$checkResult = mysql_query($sql, $Connect) or die(mysql_error());
+	
+	
+	$CheckRow = mysql_num_rows($checkResult);
+	
+		$mypage = $HTTP_SERVER_VARS['PHP_SELF'] . "?";
+		$page_size = 30;
+		$page = (isset($HTTP_GET_VARS['p'])) ? $HTTP_GET_VARS['p'] : 1;
+		$rowcount = $page_size;
+
+		if(!$_POST['search'])
+			$offset = ($page > 1) ? $rowcount*($page - 1) : 0;
+
+		else
+		{
+			$offset = 0;
+			$_GET = "";
+		}
+
+		$MAX_PAGE =  mysql_num_rows($P_result);
+
+		$total = "Total (".$MAX_PAGE.") ";
+				
+		if($MAX_PAGE <= $page_size)
+		 $total="";
+
+		$MAX_PAGE = ceil($MAX_PAGE/$page_size);
+		
+		 $sql2="SELECT 
+			disease_id,
+			disease_name_th,
+			disease_name_eng,
+			disease_url,
+			key_id
+		FROM disease 
+		ORDER BY DiseaseID ASC LIMIT ".$offset.", ".$rowcount ;
+		$result=mysql_query($sql2, $Connect) or die(mysql_error());
+
+	
+	#### เมนู
+
+		 $start_page = (($tmp = $page - 5) < 1) ? 1 : $tmp;
+		 $stop_page = (($tmp = $page + 5) > $MAX_PAGE) ? $MAX_PAGE : $tmp;
+
+		if($MAX_PAGE > 0) 
+		{
+			if($page != 1) 
+			{
+				$first = " <a href='".$mypage . "p=" . 1 ."'><img src =images/resultset_first.png border=0 align=absmidle alt=First></a> ";
+				$back = " <a href='".$mypage . "p=" . ($page-1) ."'><img src =images/resultset_previous.png border=0 align=absmidle alt=Previous></a> ";
+			}
+
+			if ($start_page != 1) $body .= "..";
+
+			for($i = $start_page; $i <= $stop_page; $i++) 
+			{
+				if($i != $page) 
+				{
+					$body .= " <a href='".$mypage . "p=".$i."'>".$i."</a> ";
+				} 
+				else 
+				{
+					$body .= "[".$i."]";
+				}
+			}
+
+			if($stop_page!=$MAX_PAGE) $body .= "..";
+
+			if($page != $MAX_PAGE) 
+			{
+				$next = " <a href='".$mypage ."p=".($page+1)."'><img src =images/resultset_next.png border=0 align=absmidle alt=Next></a>";
+				$last = " <a href='".$mypage ."p=".$MAX_PAGE."'><img src =images/resultset_last.png border=0 align=absmidle alt=Last></a>";
+			}
+		}
+	if($MAX_PAGE == 1)
+		$body="";
+	else
+		$body;
 $count=1;
 while($row=mysql_fetch_array($result)){
 
@@ -133,7 +211,20 @@ while($row=mysql_fetch_array($result)){
       </tr>
 <? $count++;}?>    
 	</table>
-	<p>&nbsp;</p>
+	<p><table width="510" height="30" border="0" align="center" cellpadding="0" cellspacing="0">
+	  <tr>
+	    <td width="151"><div align="right" class="Textfaq"><span class="Spages">
+	      <?=$total?>
+	      &nbsp;&nbsp;</span></div></td>
+	    <td width="25" class="LinkTxt"><?=$first?></td>
+	    <td width="25" class="LinkTxt"><?=$back?></td>
+	    <td><div align="center" class="Textfaq"><span class="Spages">
+	      <?=$body?>
+	      </span></div></td>
+	    <td width="25" class="LinkTxt"><?=$next?></td>
+	    <td width="25" class="LinkTxt"><?=$last?></td>
+      </tr>
+    </table></p>
 	
 	<div class="clear"></div>
 </div><!-- dashboard-widgets-wrap -->

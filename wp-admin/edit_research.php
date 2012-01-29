@@ -96,12 +96,6 @@ function chk_submit()
 		window.document.form1.rc_description.focus();
 		return false;
 	}
-	else if(window.document.form1.rc_identifer.value.length == 0)
-	{
-		alert("กรุณากรอก แหล่งที่มาของข้อมูลเว็บไซต์" );
-		window.document.form1.rc_identifer.focus();
-		return false;
-	}
 	else
 	{
 		return true;
@@ -224,7 +218,7 @@ function chk_submit()
         <td height="25"><div align="left">
           <label></label>
           <input name="rc_identifer" type="text" id="rc_identifer" value="<?php echo $row['rc_identifer'];?>">
-          <span class="style1">*</span></div></td>
+        </div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"><strong>แหล่งที่มา</strong></div></td>
@@ -256,19 +250,6 @@ function chk_submit()
         <td height="25"><div align="left">
           <label></label>
           <input name="rc_rights" type="text" id="rc_rights" value="<?php echo $row['rc_rights'];?>">
-        </div></td>
-      </tr>
-      <tr>
-        <td height="25"><div align="right"><strong>สถานะการใช้งานข้อมูล</strong></div></td>
-        <td height="25"><div align="center">:</div></td>
-        <td height="25"><div align="left">
-          <label></label>
-          <label>
-            <select name="rc_status" id="rc_status">
-              <option value="Y"<? if($row['Status ']=='Y'){echo ' selected="selected" ';}?> >เปิดใช้งาน</option>
-              <option value="N" <? if($row['Status ']=='N'){echo ' selected="selected" ';}?>>ปิดการใช้งาน</option>
-            </select>
-          </label>
         </div></td>
       </tr>
       <tr>
@@ -309,20 +290,6 @@ function chk_submit()
 		}
 		// end hiding contents from old browsers  -->
 		
-		function chk_submit()
-		{
-			if(window.document.form1.date8a.value.length == 0)
-			{
-				alert("กรุณาเลือกวันที่ !!" );
-				window.document.form1.date8a.focus();
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-
 		var cal = new Zapatec.Calendar.setup({
 		
 			inputField     :    "departure_date",   // id of the input field

@@ -67,12 +67,6 @@ function chk_submit()
 		window.document.form1.nameTH.focus();
 		return false;
 	}
-	else if(window.document.form1.disease_url.value.length == 0)
-	{
-		alert("กรุณากรอก เว็บไซต์ที่มา" );
-		window.document.form1.disease_url.focus();
-		return false;
-	}
 	else if(window.document.form1.disease_detail.value.length == 0)
 	{
 		alert("กรุณากรอก เนื้อหา" );
@@ -170,7 +164,7 @@ function chk_submit()
         <td height="25"><div align="center">:</div></td>
         <td height="25"><div align="left">
           <input name="disease_url" type="text" id="disease_url">
-          <span class="style1">*</span></div></td>
+        </div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"><strong>ที่มาของข้อมูล(เพิ่มเติม)</strong></div></td>

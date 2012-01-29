@@ -19,15 +19,13 @@ $rc_source=$_POST['rc_source'];
 $rc_language=$_POST['rc_language'];
 $rc_relation=$_POST['rc_relation'];
 $rc_rights=$_POST['rc_rights'];
-$rc_status=$_POST['rc_status'];
 
 $sql="INSERT INTO research_content (rc_title_th, rc_title_eng, rc_creator,  rc_publisher,  rc_keyword, rc_description, rc_source, rc_language, rc_relation, rc_rights, rc_contributor1, rc_contributor2, rc_contributor3, rc_date, rc_type, rc_identifer, UpdateDate, Status, family_id)
-	      VALUES('".$nameTH."', '".$nameEN."', '".$creator."', '".$rc_publisher."', '".$rc_keyword."', '".$rc_description."', '".$rc_source."', '".$rc_language."', '".$rc_relation."',  '".$rc_rights."', '".$rc_contributor1."', '".$rc_contributor2."', '".$rc_contributor3."', '".$date8a."', '".$rc_type."', '".$rc_identifer."', 'now()', '".$rc_status."', '".$orchid_family."')";
+	      VALUES('".$nameTH."', '".$nameEN."', '".$creator."', '".$rc_publisher."', '".$rc_keyword."', '".$rc_description."', '".$rc_source."', '".$rc_language."', '".$rc_relation."',  '".$rc_rights."', '".$rc_contributor1."', '".$rc_contributor2."', '".$rc_contributor3."', '".$date8a."', '".$rc_type."', '".$rc_identifer."', 'now()', 'Y', '".$orchid_family."')";
 $result=mysql_query($sql,$Connect)or die(mysql_error());
 
 
 //inset wp post
-
 include '../wp-includes/class-IXR.php';
 
 $client = new IXR_Client($blog_url.'/xmlrpc.php');
@@ -72,5 +70,4 @@ echo "<BR>".$client->getResponse();
 	<p align="center" class="style1">Please...Waiting</p>
 </body>
 </html>
-
 <?php echo '<meta http-equiv="refresh" content="2;URL=manage_research.php">';?>

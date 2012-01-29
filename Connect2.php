@@ -1,5 +1,5 @@
 <?php
-$hostname_Connect2 = "localhost:3307";
+$hostname_Connect2 = "localhost:3309";
 $database_Connect2 = "arda";
 $username_Connect2 = "root";
 $password_Connect2 = "root";

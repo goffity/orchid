@@ -106,12 +106,6 @@ function chk_submit()
 		window.document.form1.orchid_family.focus();
 		return false;
 	}
-	else if(window.document.form1.orchid_url.value.length == 0)
-	{
-		alert("กรุณากรอก เว็บไซต์ที่มา" );
-		window.document.form1.orchid_url.focus();
-		return false;
-	}
 	else if(window.document.form1.detail.value.length == 0)
 	{
 		alert("กรุณากรอก เนื้อหา" );
@@ -161,23 +155,7 @@ body {
       <td height="25"><div align="center"></div></td>
       <td height="25">&nbsp;</td>
     </tr>
-    <tr>
-      <td height="25"><div align="right"><strong>ชื่ออื่นๆ</strong></div></td>
-      <td height="25"><div align="center">:</div></td>
-      <td height="25"><div align="left">
-          <?php 
-			while($row_get = mysql_fetch_array($show_result2)){
-				$keep_sql_get="SELECT key_id, key_name FROM search_key WHERE key_id='".$row_get['key_id']."' ORDER BY key_id ASC";
-				$keep_result_get=mysql_query($keep_sql_get,$Connect)or die(mysql_error());
-				$a=0;
-				while($row_name_get=mysql_fetch_array($keep_result_get)){
-					echo $row_name_get['key_name']." , ";
-				}	
-			}
-		  ?>
-          
-        </div></td>
-    </tr>
+    
     <tr>
       <td height="25"><div align="right"><strong> สกุล </strong></div></td>
       <td height="25"><div align="center">:</div></td>
@@ -202,12 +180,30 @@ body {
         </select>
         <span class="style1">*</span></div></td>
     </tr>
+    
+    <tr>
+      <td height="25"><div align="right"><strong>ชื่ออื่นๆ</strong></div></td>
+      <td height="25"><div align="center">:</div></td>
+      <td height="25"><div align="left">
+          <?php 
+			while($row_get = mysql_fetch_array($show_result2)){
+				$keep_sql_get="SELECT key_id, key_name FROM search_key WHERE key_id='".$row_get['key_id']."' ORDER BY key_id ASC";
+				$keep_result_get=mysql_query($keep_sql_get,$Connect)or die(mysql_error());
+				$a=0;
+				while($row_name_get=mysql_fetch_array($keep_result_get)){
+					echo $row_name_get['key_name']." , ";
+				}	
+			}
+		  ?>
+          
+        </div></td>
+    </tr>
     <tr>
       <td height="25"><div align="right"><strong>เว็บไซต์ที่มา</strong></div></td>
       <td height="25"><div align="center">:</div></td>
       <td height="25"><div align="left">
         <input name="orchid_url" type="text" id="orchid_url" value="<?php echo $show_row['orchid_url']; ?>" />
-        <span class="style1">*</span></div></td>
+      </div></td>
     </tr>
     <tr>
       <td height="25"><div align="right"></div></td>

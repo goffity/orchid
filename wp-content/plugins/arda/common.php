@@ -1,5 +1,5 @@
 <? 
-	$db_host="localhost:3307";
+	$db_host="localhost:3309";
 	$db_user="root";
 	$db_pwd="root";
 	$db="arda";

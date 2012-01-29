@@ -144,12 +144,6 @@ function chk_submit()
 		window.document.form1.orchid_family.focus();
 		return false;
 	}
-	else if(window.document.form1.orchid_url.value.length == 0)
-	{
-		alert("กรุณากรอก เว็บไซต์ที่มา" );
-		window.document.form1.orchid_url.focus();
-		return false;
-	}
 	else if(window.document.form1.detail.value.length == 0)
 	{
 		alert("กรุณากรอก เนื้อหา" );
@@ -173,6 +167,14 @@ function chk_submit()
 </style>
 
 
+<script type="text/javascript">
+<!--
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+//-->
+</script>
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
@@ -185,19 +187,17 @@ function chk_submit()
         <td width="298" height="25"><div align="right"><strong>ชื่อพันธุ์ (ภาษาไทย)</strong></div></td>
         <td width="23" height="25"><div align="center">:</div></td>
         <td width="571" height="25"><div align="left">
-            <label>
+          <label>
             <input name="nameTH" type="text" id="nameTH" onchange="loadContentResult(this.value)" />
-            </label>
-            <span class="style1">*</span></div></td>
+          </label>
+          <span class="style1">*</span></div></td>
       </tr>
       <tr>
         <td height="25">&nbsp;</td>
         <td height="25">&nbsp;</td>
-        <td height="25">
-			<div id="spinner"></div>
-			<div id="actionresult"></div>
-			<div class="clear"></div>
-		</td>
+        <td height="25"><div id="spinner"></div>
+          <div id="actionresult"></div>
+          <div class="clear"></div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"><strong>ชื่อพันธุ์ (ภาษาอังกฤษ)</strong></div></td>
@@ -209,18 +209,33 @@ function chk_submit()
       <tr>
         <td height="25">&nbsp;</td>
         <td height="25">&nbsp;</td>
-        <td height="25" align="left">
-			<div id="sp_v2"></div>
-			<div id="actionresult2"></div>
-			<div class="clear"></div>
-		</td>
+        <td height="25" align="left"><div id="sp_v2"></div>
+          <div id="actionresult2"></div>
+          <div class="clear"></div></td>
+      </tr>
+      <tr>
+        <td height="25"><div align="right"><strong> สกุล </strong></div></td>
+        <td height="25"><div align="center">:</div></td>
+        <td height="25"><div align="left">
+          <?php 
+			//Select Family
+			$query_family = "SELECT family_id, family_name_th, family_name_eng FROM family WHERE Status='Y' ORDER BY family_id ASC";
+			$result_family = mysql_query($query_family,$Connect)or die(mysql_error());
+		?>
+          <select name="orchid_family" id="orchid_family" onchange="MM_jumpMenu('parent',this,0)">
+            <option value="" selected="selected">--select--</option>
+            <?php while($row_family=mysql_fetch_array($result_family)){?>
+            <option value="add_orchid.php?family_id=<?php echo $row_family['family_id']?>" <?php if($row_family['family_id'] == $_REQUEST['family_id']){echo 'selected="selected"';}?> ><?php echo $row_family['family_name_th']."(".$row_family['family_name_eng'].")";?></option>
+            <?php }?>
+          </select>
+          <span class="style1">*</span></div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"><strong>ชื่ออื่นๆ</strong></div></td>
         <td height="25"><div align="center">:</div></td>
         <td height="25"><div align="left">
           <?php 
-			$sql="SELECT DISTINCT key_id FROM search_key WHERE key_id != '-1' AND search_type_id = 'st004' ORDER BY key_id ASC";
+			$sql="SELECT DISTINCT key_id FROM search_key WHERE key_id != '-1' AND search_type_id = 'st004' AND ref_family='".$_REQUEST['family_id']."' ORDER BY key_id ASC";
 			$result=mysql_query($sql,$Connect)or die(mysql_error());
 		?>
           <select name="select_keyword" id="select_keyword">
@@ -246,34 +261,16 @@ function chk_submit()
 				//print($set_show);
 				//echo "<option value=\"".$keepID[$x]."\">".$keepData[$x][0]."</option>"; //$row2['Key_Desc'].",";
 		?>
-        <?php $x++;}?>
+            <?php $x++;}?>
           </select>
           <span class="style1">*</span></div></td>
-      </tr>
-	  
-      <tr>
-        <td height="25"><div align="right"><strong> สกุล </strong></div></td>
-        <td height="25"><div align="center">:</div></td>
-        <td height="25"><div align="left">
-		<?php 
-			//Select Family
-			$query_family = "SELECT family_id, family_name_th, family_name_eng FROM family WHERE Status='Y' ORDER BY family_id ASC";
-			$result_family = mysql_query($query_family,$Connect)or die(mysql_error());
-		?>
-        <select name="orchid_family" id="orchid_family">
-          <option value="" selected="selected">--select--</option>
-          <?php while($row_family=mysql_fetch_array($result_family)){?>
-          <option value="<?php echo $row_family['family_id']?>"><?php echo $row_family['family_name_th']."(".$row_family['family_name_eng'].")";?></option>
-          <?php }?>
-        </select>
-        <span class="style1">*</span></div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"><strong>เว็บไซต์ที่มา</strong></div></td>
         <td height="25"><div align="center">:</div></td>
         <td height="25"><div align="left">
-          <input name="orchid_url" type="text" id="orchid_url">
-          <span class="style1">*</span></div></td>
+          <input name="orchid_url" type="text" id="orchid_url" />
+        </div></td>
       </tr>
       <tr>
         <td height="25"><div align="right"></div></td>
@@ -285,7 +282,7 @@ function chk_submit()
         <td height="25"><div align="center">:</div></td>
         <td height="25"><div align="left">
           <label>
-          <textarea name="detail" cols="50" rows="8" id="detail"></textarea>
+            <textarea name="detail" cols="50" rows="8" id="detail"></textarea>
           </label>
           <span class="style1">*</span></div></td>
       </tr>
@@ -298,13 +295,13 @@ function chk_submit()
         <td height="25">&nbsp;</td>
         <td height="25">&nbsp;</td>
         <td height="25"><label>
-          <input type="submit" name="Submit" value="บันทึก">
-        &nbsp;&nbsp;&nbsp;
-        <input type="reset" name="Submit2" value="ยกเลิก">
+          <input type="submit" name="Submit" value="บันทึก" />
+          &nbsp;&nbsp;&nbsp;
+          <input type="reset" name="Submit2" value="ยกเลิก" />
         </label></td>
       </tr>
     </table>
-    </form>
+  </form>
   <div class="clear"></div>
 </div><!-- dashboard-widgets-wrap -->
 

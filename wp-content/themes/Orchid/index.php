@@ -6,7 +6,7 @@
 	<div id="sidecontainer">
        <div style="float:left"> <?php get_sidebar(); ?></div>
 	  <br />
-	  <div style="float:left"><?php include (TEMPLATEPATH . "/sidebar2.php"); ?></div>
+	  <!-- <div style="float:left"><?php //include (TEMPLATEPATH . "/sidebar2.php"); ?></div> -->
 	  </div>
       <div class="post-container">
         <?php if (have_posts()) : ?>

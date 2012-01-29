@@ -1,5 +1,5 @@
 <?php
-$hostname_Connect = "localhost:3307";
+$hostname_Connect = "localhost:3309";
 $database_Connect = "wordpress2";
 $username_Connect = "root";
 $password_Connect = "root";
