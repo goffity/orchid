@@ -7,6 +7,7 @@ $log = logging::getLog(__FILE__);
 mysql_select_db($database_Connect,$Connect);
 
 $chk_s=$_GET['s'];
+//$search_key = array();
 
 if (empty($chk_s)) {
 	//don't display anything
@@ -73,11 +74,14 @@ if (empty($chk_s)) {
 		$query_result="SELECT * FROM search_key WHERE key_id='".$row['key_id']."'";
 		$show_result=mysql_query($query_result,$Connect) or die(mysql_error());
 		$z=1;
+
 		while($set0=mysql_fetch_array($show_result)){
 			?>
 		<tr>
-			<td style="padding-left: 30px; color: white;"><li><?php echo "[".$z."]  ".$set0['key_name'] ;?>
-					<!-- <a href="<?php //bloginfo('url');?>/?s=<?php //echo $set0['key_name'];?>"><?php //echo "[".$z."]  ".$set0['key_name'] ;?></a> -->
+			<td style="padding-left: 30px; color: white;"><li><?php 
+			echo "[".$z."]  ".$set0['key_name'] ;
+			$search_key[$z-1] = $set0['key_name'];
+			?> <!-- <a href="<?php //bloginfo('url');?>/?s=<?php //echo $set0['key_name'];?>"><?php //echo "[".$z."]  ".$set0['key_name'] ;?></a> -->
 			</li></td>
 		</tr>
 		<?php
@@ -130,17 +134,42 @@ if (empty($chk_s)) {
 						(`disease_id` ='".$search_disease_id['disease_id']."');";
 
 		}else if ($_SESSION['src_name'] == "family"){
+
 			$sql_search_fam = "SELECT
-    					`family_id`
-    					, `family_name_th`
-    					, `family_name_eng`
-    					, `Status`
-    					, `Update_date`
-					FROM
-    					`family`
-					WHERE 
-						(`family_name_th` = '".$_SESSION['key_word']."')
-    					OR (`family_name_eng` ='".$_SESSION['key_word']."');"; 
+			 `family_id`
+			 , `family_name_th`
+			 , `family_name_eng`
+			 , `Status`
+			 , `Update_date`
+			 FROM
+			 `family`
+			 WHERE
+			 (`family_name_th` = '".$_SESSION['key_word']."')
+			 OR (`family_name_eng` ='".$_SESSION['key_word']."');";
+
+			/*
+			 $sql_search_fam = "SELECT
+			 `family_id`
+			 , `family_name_th`
+			 , `family_name_eng`
+			 , `Status`
+			 , `Update_date`
+			 FROM
+			 `family`
+			 WHERE ";
+			 $log->debug("size of search_key: ".sizeof($search_key));
+			 for ($i = 0; $i < sizeof($search_key); $i++) {
+				$sql_search_fam .= "(`family_name_th` = '".$search_key[$i]."') OR (`family_name_eng` ='".$search_key[$i]."')";
+				if ($i < sizeof($search_key)-1) {
+				$sql_search_fam .= "OR ";
+				}else{
+				$sql_search_fam .= ";";
+				}
+				}
+
+				$log->debug("SQL FAM: ".$sql_search_fam);
+				*/
+
 
 		}else if ($_SESSION['src_name'] == "research") {
 			$sql_search_fam = "SELECT
@@ -152,13 +181,33 @@ if (empty($chk_s)) {
     					OR (`rc_title_eng` ='".$_SESSION['key_word']."');";
 
 		}else if ($_SESSION['src_name'] == "orchid_varity"){
+
 			$sql_search_fam = "SELECT
-    					`family_id`
-					FROM
-    					`orchid_varity`
-    				WHERE
-    					(`orchid_name_th` = '".$_SESSION['key_word']."')
-    					OR (`orchid_name_eng` = '".$_SESSION['key_word']."');";
+			 `family_id`
+			 FROM
+			 `orchid_varity`
+			 WHERE
+			 (`orchid_name_th` = '".$_SESSION['key_word']."')
+			 OR (`orchid_name_eng` = '".$_SESSION['key_word']."');";
+			/*
+			 $sql_search_fam = "SELECT
+			 `family_id`
+			 FROM
+			 `orchid_varity`
+			 WHERE ";
+			 for ($i = 0; $i < sizeof($search_key); $i++) {
+				$sql_search_fam .= "(`orchid_name_th` = '".$search_key[$i]."')
+				OR (`orchid_name_eng` = '".$search_key[$i]."')";
+				if ($i < sizeof($search_key)-1) {
+				$sql_search_fam .= "OR ";
+				}else{
+				$sql_search_fam .= ";";
+				}
+				}
+
+				$log->debug("SQL ".$sql_search_fam);
+
+				*/
 		}
 
 		//echo "<BR> SQL: ".$sql_search_fam;
